@@ -12,40 +12,106 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        // Create Themes
-        $themes = [
-            'Music' => ['Guitar Basics', 'Piano Basics'],
-            'Informatics' => ['Web Development'],
-            'Gardening' => ['Gardening 101'],
-            'Cooking' => ['Culinary Basics', 'Food Styling']
-        ];
+        // Create Themes and their corresponding Cursus and Lessons
 
-        foreach ($themes as $themeName => $cursusTitles) {
-            $theme = new Theme();
-            $theme->setName($themeName);
-            $manager->persist($theme);
+        // Theme: Music
+        $musicTheme = new Theme();
+        $musicTheme->setName('Music');
+        $manager->persist($musicTheme);
 
-            // Create Cursus for each Theme
-            foreach ($cursusTitles as $cursusTitle) {
-                $cursus = new Cursus();
-                $cursus->setTitle($cursusTitle);
-                $cursus->setPrice(mt_rand(20, 100)); // Random price for demonstration
-                $cursus->setTheme($theme);
-                $manager->persist($cursus);
+        // Cursus: Guitar Basics
+        $guitarCursus = new Cursus();
+        $guitarCursus->setTitle('Guitar Basics');
+        $guitarCursus->setPrice(50); // Price as per the specifications
+        $guitarCursus->setTheme($musicTheme);
+        $manager->persist($guitarCursus);
 
-                // Create Lessons for each Cursus
-                for ($i = 1; $i <= 3; $i++) {
-                    $lesson = new Leçon();
-                    $lesson->setTitle("$cursusTitle - Lesson $i");
-                    $lesson->setContent("Lorem ipsum content for lesson $i of $cursusTitle.");
-                    $lesson->setVideoUrl("https://www.example.com/video/$i"); // Example video URL
-                    $lesson->setCursus($cursus);
-                    $manager->persist($lesson);
-                }
-            }
-        }
+        // Leçons for Guitar Basics
+        $this->createLesson($manager, $guitarCursus, 'Découverte de l’instrument', 26);
+        $this->createLesson($manager, $guitarCursus, 'Les accords et les gammes', 26);
 
-        // Flush to write everything to the database
+        // Cursus: Piano Basics
+        $pianoCursus = new Cursus();
+        $pianoCursus->setTitle('Piano Basics');
+        $pianoCursus->setPrice(50); // Price as per the specifications
+        $pianoCursus->setTheme($musicTheme);
+        $manager->persist($pianoCursus);
+
+        // Leçons for Piano Basics
+        $this->createLesson($manager, $pianoCursus, 'Découverte de l’instrument', 26);
+        $this->createLesson($manager, $pianoCursus, 'Les accords et les gammes', 26);
+
+        // Theme: Informatics
+        $informaticsTheme = new Theme();
+        $informaticsTheme->setName('Informatics');
+        $manager->persist($informaticsTheme);
+
+        // Cursus: Web Development
+        $webDevCursus = new Cursus();
+        $webDevCursus->setTitle('Web Development');
+        $webDevCursus->setPrice(60);
+        $webDevCursus->setTheme($informaticsTheme);
+        $manager->persist($webDevCursus);
+
+        // Leçons for Web Development
+        $this->createLesson($manager, $webDevCursus, 'Les langages Html et CSS', 32);
+        $this->createLesson($manager, $webDevCursus, 'Dynamiser votre site avec Javascript', 32);
+
+        // Theme: Gardening
+        $gardeningTheme = new Theme();
+        $gardeningTheme->setName('Gardening');
+        $manager->persist($gardeningTheme);
+
+        // Cursus: Gardening 101
+        $gardeningCursus = new Cursus();
+        $gardeningCursus->setTitle('Gardening 101');
+        $gardeningCursus->setPrice(30);
+        $gardeningCursus->setTheme($gardeningTheme);
+        $manager->persist($gardeningCursus);
+
+        // Leçons for Gardening 101
+        $this->createLesson($manager, $gardeningCursus, 'Les outils du jardinier', 16);
+        $this->createLesson($manager, $gardeningCursus, 'Jardiner avec la lune', 16);
+
+        // Theme: Cooking
+        $cookingTheme = new Theme();
+        $cookingTheme->setName('Cooking');
+        $manager->persist($cookingTheme);
+
+        // Cursus: Culinary Basics
+        $culinaryCursus = new Cursus();
+        $culinaryCursus->setTitle('Culinary Basics');
+        $culinaryCursus->setPrice(44);
+        $culinaryCursus->setTheme($cookingTheme);
+        $manager->persist($culinaryCursus);
+
+        // Leçons for Culinary Basics
+        $this->createLesson($manager, $culinaryCursus, 'Les modes de cuisson', 23);
+        $this->createLesson($manager, $culinaryCursus, 'Les saveurs', 23);
+
+        // Cursus: Food Styling
+        $foodStylingCursus = new Cursus();
+        $foodStylingCursus->setTitle('Food Styling');
+        $foodStylingCursus->setPrice(48);
+        $foodStylingCursus->setTheme($cookingTheme);
+        $manager->persist($foodStylingCursus);
+
+        // Leçons for Food Styling
+        $this->createLesson($manager, $foodStylingCursus, 'Mettre en œuvre le style dans l’assiette', 26);
+        $this->createLesson($manager, $foodStylingCursus, 'Harmoniser un repas à quatre plats', 26);
+
+        // Persist all data
         $manager->flush();
+    }
+
+    // Helper function to create lessons
+    private function createLesson(ObjectManager $manager, Cursus $cursus, string $title, float $price): void
+    {
+        $lesson = new Leçon();
+        $lesson->setTitle($title);
+        $lesson->setContent('Lorem ipsum content for ' . $title);
+        $lesson->setVideoUrl('https://www.example.com/video/' . strtolower(str_replace(' ', '-', $title)));
+        $lesson->setCursus($cursus);
+        $manager->persist($lesson);
     }
 }
