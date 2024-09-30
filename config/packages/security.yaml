@@ -1,39 +1,50 @@
 security:
-    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+    # Gestion des encodages de mot de passe
     password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
-    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+        App\Entity\User:
+            algorithm: auto
+
+    # Fournisseurs d'utilisateurs : on utilise l'entité User pour charger les utilisateurs depuis la base de données
     providers:
-        users_in_memory: { memory: null }
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
         main:
             lazy: true
-            provider: users_in_memory
+            provider: app_user_provider
+            custom_authenticator: App\Security\LoginFormAuthenticator
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#the-firewall
+            logout:
+                path: app_logout
+                # Redirection après la déconnexion (ici vers la page de login)
+                target: app_login
 
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800 # 1 semaine
+                path: /
+                # Le "Remember me" est activé par une case à cocher dans le formulaire
+                # Décommente la ligne ci-dessous si tu veux l'activer automatiquement
+                # always_remember_me: true
 
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
+    # Contrôle d'accès basé sur les rôles des utilisateurs
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/admin, roles: ROLE_ADMIN }  # Exemple d'accès restreint à l'admin
+        - { path: ^/profile, roles: ROLE_USER }  # Exemple d'accès restreint aux utilisateurs connectés
 
 when@test:
     security:
         password_hashers:
-            # By default, password hashers are resource intensive and take time. This is
-            # important to generate secure password hashes. In tests however, secure hashes
-            # are not important, waste resources and increase test times. The following
-            # reduces the work factor to the lowest possible values.
+            # Utilisation de hashers plus légers pour les tests
             Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
                 algorithm: auto
-                cost: 4 # Lowest possible value for bcrypt
-                time_cost: 3 # Lowest possible value for argon
-                memory_cost: 10 # Lowest possible value for argon
+                cost: 4  # Valeur minimale pour bcrypt
+                time_cost: 3  # Valeur minimale pour argon
+                memory_cost: 10  # Valeur minimale pour argon
