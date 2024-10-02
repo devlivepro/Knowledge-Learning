@@ -1,0 +1,310 @@
+/* SCSS */
+$color-1: #f1f8fc;
+$color-2: #0074c7;
+$color-3: #00497c;
+$color-4: #384050;
+$color-5: #cd2c2e;
+$color-6: #82b864;
+
+/* Style général pour la page */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  height: 100%;
+  background-color: $color-1;
+}
+
+main {
+  padding: 0;
+  width: 100%;
+}
+
+header {
+  background-color: $color-1;
+  padding: 10px 0;
+  border-bottom: 4px solid #00497c;
+}
+
+.header-container {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 60%;
+}
+
+nav ul {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  color: $color-4;
+  font-size: 16px;
+}
+nav a {
+  font-weight: 400;
+  margin-left: 20px;
+  text-decoration: none;
+}
+nav a.active {
+  color: #333;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+h1 {
+
+}
+
+h2 {
+
+}
+
+h3 {
+  color: $color-6;
+}
+
+/* Conteneur global */
+.container-custom {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Conteneur pour le contenu principal (image + formulaire) */
+.content-wrapper {
+  display: flex;
+  flex-grow: 1;
+}
+
+/* Section gauche pour l'image */
+.image-section {
+  flex: 1;
+  background-image: url("../img/background.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+}
+
+/* Section droite pour le formulaire */
+.form-section-home {
+  flex: 1;
+  background-color: $color-1;
+  display: flex;
+  flex-direction: column;
+  padding: 50px;
+  position: relative;
+  max-width: 550px;
+}
+
+.logo-home {
+  display: block;
+  padding-left: 20px;
+  text-align: left;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  max-width: 100%;
+  width: 100%;
+  margin-block-end: 50px;
+}
+
+.logo-header {
+  display: block;
+  padding-left: 20px;
+  text-align: left;
+}
+
+.logo img,
+.logo-header img {
+  max-height: 90px;
+}
+
+.logo img home {
+  max-height: 90px;
+}
+
+/* Style du formulaire */
+.login-form {
+  width: 100%;
+  background-color: $color-1;
+  padding: 0;
+  border-radius: 10px;
+}
+
+.login-form h2 {
+  margin-bottom: 20px;
+  color: $color-4;
+}
+
+.welcome-text {
+  margin-bottom: 50px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 15px;
+  color: $color-4;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0;
+  border-radius: 5px;
+  font-size: 16px;
+  appearance: none;
+  background: transparent;
+  border: none;
+  border-bottom-width: medium;
+  border-bottom-style: none;
+  border-bottom-color: currentcolor;
+  border-bottom: 1px solid $color-1;
+  border-radius: 0;
+  line-height: 1.2;
+  margin-top: 0.5rem;
+  padding-bottom: 1rem;
+  padding-top: 0.5rem;
+}
+
+.form-control:focus {
+  border-color: $color-2;
+  outline: none;
+}
+
+.btn {
+  background-color: $color-2;
+  color: $color-1;
+  border: none;
+  padding: 12px;
+  width: 100%;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: $color-3;
+}
+
+.alert {
+  color: $color-5;
+  background-color: $color-1;
+  border: 1px solid $color-5;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 15px;
+}
+
+.mt-3 {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.mt-3 a {
+  color: $color-3;
+  text-decoration: none;
+}
+
+.mt-3 a:hover {
+  text-decoration: underline;
+}
+
+section.highlighted-products {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.product-grid-high {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.company-presentation {
+  background-color: $color-1;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+  max-width: 90%;
+  padding: 40px 20px;
+  text-align: left;
+  margin-block-end: 20px;
+  color: $color-6;
+}
+
+.company-presentation p {
+  color: $color-5;
+}
+
+footer {
+  text-align: center;
+  background-color: $color-4;
+  color: $color-1;
+}
+
+.footer-container {
+  align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  padding: 20px;
+  width: 90%;
+}
+
+.company-info,
+.social-links {
+  flex: 1;
+}
+.company-info h4,
+.social-links h4 {
+  color: $color-4;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.company-info p,
+.social-links a {
+  color: $color-1;
+  font-size: 17px;
+}
+.social-links a {
+  color: $color-1;
+  display: block;
+  margin-bottom: 5px;
+  text-decoration: none;
+}
+.social-links a:hover {
+  color: $color-6;
+}
+.copyright {
+  bottom: 0;
+  font-size: 14px;
+  padding: 10px 0;
+  position: relative;
+  text-align: center;
+  width: 100%;
+  background-color: $color-3;
+}
+.copyright p {
+  margin: 0;
+  color: $color-1;
+}
