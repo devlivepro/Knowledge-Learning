@@ -9,7 +9,7 @@ security:
         app_user_provider:
             entity:
                 class: App\Entity\User
-                property: email
+                property: username
 
     firewalls:
         dev:
@@ -21,6 +21,15 @@ security:
             provider: app_user_provider
             custom_authenticator: App\Security\LoginFormAuthenticator
 
+            # Point d'entrée : utiliser form_login pour rediriger vers /login
+            entry_point: form_login
+
+            # Le formulaire de connexion
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                enable_csrf: true
+            
             logout:
                 path: app_logout
                 # Redirection après la déconnexion (ici vers la page de login)
