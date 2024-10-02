@@ -8,3 +8,14 @@ controllers:
 app_home:
     path: /
     controller: App\Controller\HomeController::index
+
+reset_password_request:
+    path: /forgot-password
+    controller: App\Controller\ResetPasswordController::request
+
+student:
+    path: /student
+    controller: App\Controller\StudentController::index
+
+app_logout:
+    path: /logout
