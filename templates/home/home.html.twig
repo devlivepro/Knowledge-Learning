@@ -1,11 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}Accueil
+{% endblock %}
 
 {% block body %}
+	<!-- Inclusion of header -->
+	{% include 'includes/header.html.twig' %}
 
-    <section>
-        
-    </section>
+	<section class="highlighted-products">
+		<h1>Les incontournables de nos clients</h1>
+
+		<div class="product-grid-high">
+			ici les livres les plus vendus
+		</div>
+	</section>
+
+	<section class="company-presentation">
+		<h2>À propos de Knowledge Learning</h2>
+		<p>Knowledge, société éditrice renommée pour ses supports de formation vendus en librairie, propose depuis de nombreuses années des ouvrages et kits pédagogiques dans divers domaines tels que la musique, l'informatique et le jardinage. Reconnue pour la qualité et la diversité de ses contenus éducatifs, Knowledge s'est imposée comme une référence incontournable pour tous ceux qui souhaitent se former de manière autonome.</p>
+	</section>
+
+	<!-- Footer inclusion -->
+	{% include 'includes/footer.html.twig' %}
 
 {% endblock %}
