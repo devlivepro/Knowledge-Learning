@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+<div class="container-custom">
+
+    <section class="content-wrapper">
+        <!-- Left section for image -->
+        <section class="image-section">
+            <!-- The image will be defined in CSS as background -->
+        </section>
+
+        <!-- Right section for registration form -->
+        <section class="form-section-home">
+            <div class="logo">
+                <img src="{{ asset('img/logo.jpeg') }}" alt="Logo Knowledge Learning">
+            </div>
+
+            <p class="welcome-text">Créez un compte pour accéder à l'espace élève en ligne de formation.</p>
+
+            <!-- Registration form -->
+            <div class="login-form">
+                <h2 class="text-center">Créer un compte</h2>
+                {{ form_start(registrationForm) }}
+                    <div class="form-group">
+                        {{ form_label(registrationForm.username) }}
+                        {{ form_widget(registrationForm.username, { 'attr': {'class': 'form-control', 'placeholder': 'Nom d\'utilisateur'} }) }} <!-- Ajout du champ username -->
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(registrationForm.email) }}
+                        {{ form_widget(registrationForm.email, { 'attr': {'class': 'form-control', 'placeholder': 'Email'} }) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(registrationForm.plainPassword) }}
+                        {{ form_widget(registrationForm.plainPassword, { 'attr': {'class': 'form-control', 'placeholder': 'Mot de passe'} }) }}
+                    </div>
+                    <div class="form-group mt-4">
+                        <button type="submit" class="btn">S'inscrire</button>
+                    </div>
+                {{ form_end(registrationForm) }}
+
+                <div class="mt-3 text-center">
+                    <p>Déjà un compte ? <a href="{{ path('app_login') }}">Se connecter</a></p>
+                </div>
+            </div>
+        </section>
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+<header>
+    <div class="header-container">
+        <div class="logo-header">
+            <a href="{{ path('app_home') }}">
+                <img src="{{ asset('img/logo.jpeg') }}" alt="Logo de Stubborn" class="logo-img">
+            </a>
+        </div>
+
+        <div class="menu-mobile" id="menu-mobile"></div>
+
+        <nav id="main-nav">
+            <a href="{{ path('app_home') }}" class="{{ app.request.attributes.get('_route') == 'app_home' ? 'active' : '' }}">Accueil</a>
+            {% if app.user %}
+                <a href="{{ path('app_products') }}" class="{{ app.request.attributes.get('_route') == 'app_products' ? 'active' : '' }}">Produits</a>
+                <a href="{{ path('app_cart') }}" class="{{ app.request.attributes.get('_route') == 'app_cart' ? 'active' : '' }}">Panier</a>
+                <a href="{{ path('app_account') }}" class="{{ app.request.attributes.get('_route') == 'app_account' ? 'active' : '' }}">Mon compte</a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_admin') }}" class="{{ app.request.attributes.get('_route') == 'app_admin' ? 'active' : '' }}">Admin</a>
+                {% endif %}
+                <a href="{{ path('app_logout') }}">Se déconnecter</a>
+            {% else %}
+                <a href="{{ path('app_register') }}" class="{{ app.request.attributes.get('_route') == 'app_register' ? 'active' : '' }}">S'inscrire</a>
+                <a href="{{ path('app_login') }}" class="{{ app.request.attributes.get('_route') == 'app_login' ? 'active' : '' }}">Se connecter</a>
+            {% endif %}
+        </nav>
+    </div>
+</header>
