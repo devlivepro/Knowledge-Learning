@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace Étudiant{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Bienvenue sur votre espace étudiant {{ app.user.username }} <a href="{{ path('app_logout') }}">Déconnexion</a></h1>
+        <p>Ici, vous pouvez gérer vos cours, consulter vos résultats et plus encore.</p>
+
+        <!-- Ajouter ici les sections spécifiques pour l'étudiant -->
+        <section>
+            <h2>Mes Cours</h2>
+            <!-- Contenu spécifique lié aux cours -->
+        </section>
+
+        <section>
+            <h2>Mes Résultats</h2>
+            <!-- Contenu spécifique lié aux résultats -->
+        </section>
+    </div>
+{% endblock %}
