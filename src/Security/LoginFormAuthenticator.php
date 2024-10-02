@@ -28,15 +28,17 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        $email = $request->getPayload()->getString('email');
+        // Use of “username
+        $username = $request->get('username', '');
 
-        $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);
+        // Store username in session for later retrieval
+        $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $username);
 
         return new Passport(
-            new UserBadge($email),
-            new PasswordCredentials($request->getPayload()->getString('password')),
+            new UserBadge($username),  // Use of username
+            new PasswordCredentials($request->get('password', '')),
             [
-                new CsrfTokenBadge('authenticate', $request->getPayload()->getString('_csrf_token')),
+                new CsrfTokenBadge('authenticate', $request->get('_csrf_token')),
                 new RememberMeBadge(),
             ]
         );
@@ -44,13 +46,13 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        // If a redirection is already defined, we redirect the user to it
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
 
-        // For example:
-        // return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        // Redirect to a specific page after successful authentication
+        return new RedirectResponse($this->urlGenerator->generate('student')); // Redirect to student page
     }
 
     protected function getLoginUrl(Request $request): string
