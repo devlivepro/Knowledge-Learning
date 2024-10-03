@@ -1,12 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Reset your password{% endblock %}
+{% block title %}Réinitialiser le mot de passe{% endblock %}
 
 {% block body %}
-    <h1>Reset your password</h1>
+<div class="container-custom">
+    <section class="content-wrapper">
+        <section class="image-section"><!-- The image will be defined in CSS --></section>
 
-    {{ form_start(resetForm) }}
-        {{ form_row(resetForm.plainPassword) }}
-        <button class="btn btn-primary">Reset password</button>
-    {{ form_end(resetForm) }}
+        <!-- Right section for password reset form -->
+        <section class="form-section-home">
+            <div class="logo">
+                <a href="{{ path('home') }}"><img src="{{ asset('img/logo.jpeg') }}" alt="Logo Knowledge Learning"></a>
+            </div>
+
+            <p class="welcome-text">Bienvenue sur Knowledge Learning, l'espace élève en ligne de formation.</p>
+
+            <!-- Password reset form -->
+            <div class="login-form">
+                <h1 class="text-center">Nouveau mot de passe</h1>
+
+                {{ form_start(resetForm) }}
+                    {{ form_row(resetForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Nouveau mot de passe'}}) }}
+                    <button class="btn btn-primary mt-3">Réinitialiser le mot de passe</button>
+                {{ form_end(resetForm) }}
+
+                <!-- Link back to connection -->
+                <div class="mt-3 text-center">
+                    <a href="{{ path('app_login') }}">Retour à la connexion</a>
+                </div>
+            </div>
+        </section>
+    </section>
+</div>
 {% endblock %}

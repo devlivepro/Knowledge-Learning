@@ -31,6 +31,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private ?bool $isActivated = false;  // Par défaut, non activé
 
+    #[ORM\Column(type: 'string', nullable: true)]  // Token de vérification
+    private ?string $verificationToken = null;
+
     // Getters et Setters pour les propriétés
 
     public function getId(): ?int
@@ -46,7 +49,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
         return $this;
     }
 
@@ -58,7 +60,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername(string $username): static
     {
         $this->username = $username;
-
         return $this;
     }
 
@@ -75,7 +76,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
-
         return $this;
     }
 
@@ -87,7 +87,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): static
     {
         $this->password = $password;
-
         return $this;
     }
 
@@ -99,28 +98,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setActivated(bool $isActivated): static
     {
         $this->isActivated = $isActivated;
+        return $this;
+    }
 
+    public function getVerificationToken(): ?string
+    {
+        return $this->verificationToken;
+    }
+
+    public function setVerificationToken(?string $verificationToken): static
+    {
+        $this->verificationToken = $verificationToken;
         return $this;
     }
 
     // Méthode nécessaire pour l'interface UserInterface
     public function getSalt(): ?string
     {
-        // Pas besoin de "salt" supplémentaire avec les algorithmes modernes comme bcrypt
         return null;
     }
 
     // Méthode nécessaire pour l'interface UserInterface
     public function eraseCredentials(): void
     {
-        // Si vous stockez des données sensibles temporaires, vous pouvez les effacer ici
-        // Exemple : vider une variable plainPassword après l'encodage
     }
 
     // Méthode nécessaire pour l'interface PasswordAuthenticatedUserInterface
     public function getUserIdentifier(): string
     {
-        // Retourne le nom d'utilisateur comme identifiant principal
         return $this->username ?? $this->email;
     }
 }

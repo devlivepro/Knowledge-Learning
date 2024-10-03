@@ -1,0 +1,7 @@
+# translations/validators.fr.yaml
+
+# Translation for PasswordStrength constraint
+Symfony\Component\Validator\Constraints\PasswordStrength.too_weak: 'La force du mot de passe est trop faible. Veuillez utiliser un mot de passe plus fort.'
+
+# Translation for NotCompromisedPassword constraint
+Symfony\Component\Validator\Constraints\NotCompromisedPassword.message: 'Ce mot de passe a été divulgué lors d''une fuite de données, il ne doit pas être utilisé. Veuillez utiliser un autre mot de passe.'
