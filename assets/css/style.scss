@@ -5,6 +5,7 @@ $color-3: #00497c;
 $color-4: #384050;
 $color-5: #cd2c2e;
 $color-6: #82b864;
+$color-7: #fff;
 
 /* Style général pour la page */
 html, body {
@@ -21,7 +22,7 @@ main {
 }
 
 header {
-  background-color: $color-1;
+  background-color: $color-7;
   padding: 10px 0;
   border-bottom: 4px solid #00497c;
 }
@@ -95,7 +96,7 @@ h3 {
 /* Section droite pour le formulaire */
 .form-section-home {
   flex: 1;
-  background-color: $color-1;
+  background-color: $color-7;
   display: flex;
   flex-direction: column;
   padding: 50px;
@@ -136,7 +137,7 @@ h3 {
 /* Style du formulaire */
 .login-form {
   width: 100%;
-  background-color: $color-1;
+  background-color: $color-7;
   padding: 0;
   border-radius: 10px;
 }
@@ -298,7 +299,7 @@ footer {
 .copyright {
   bottom: 0;
   font-size: 14px;
-  padding: 10px 0;
+  padding: 5px 0;
   position: relative;
   text-align: center;
   width: 100%;
