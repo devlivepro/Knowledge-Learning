@@ -1,11 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Password Reset Email Sent{% endblock %}
+{% block title %}Vérifiez votre email{% endblock %}
 
 {% block body %}
-    <p>
-        If an account matching your email exists, then an email was just sent that contains a link that you can use to reset your password.
-        This link will expire in {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
-    </p>
-    <p>If you don't receive an email please check your spam folder or <a href="{{ path('app_forgot_password_request') }}">try again</a>.</p>
+<div class="container-custom">
+    <section class="content-wrapper">
+        <section class="image-section"></section>
+
+        <section class="form-section-home">
+            <div class="logo">
+                <a href="{{ path('home') }}"><img src="{{ asset('img/logo.jpeg') }}" alt="Logo Knowledge Learning"></a>
+            </div>
+
+            <p class="welcome-text">Bienvenue sur Knowledge Learning, l'espace élève en ligne de formation.</p>
+
+            <div class="login-form">
+                <h1 class="text-center">Email envoyé</h1>
+                
+                <p>Vérifiez votre boîte de réception.</p>
+                <p>Si un compte existe pour cet email, vous recevrez un lien pour réinitialiser votre mot de passe.</p>
+                <p>Vérifiez votre boîte de réception et suivez les instructions pour réinitialiser votre mot de passe.</p>
+
+                <div class="mt-3 text-center">
+                    <a href="{{ path('app_login') }}">Retour à la connexion</a>
+                </div>
+            </div>
+        </section>
+    </section>
+</div>
 {% endblock %}
