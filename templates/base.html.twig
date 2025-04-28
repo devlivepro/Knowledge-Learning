@@ -1,28 +1,23 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="La boutique en ligne dédiée à la mode avec caractère">
-		<title>
-			{% block title %}Knowledge-Learning
-			{% endblock %}
-		</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="La boutique en ligne dédiée à la mode avec caractère">
+    <title>{% block title %}Knowledge-Learning{% endblock %}</title>
 
-		{% block stylesheets %}
-			{{ encore_entry_link_tags('style') }}
-		{% endblock %}
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('style') }}
+    {% endblock %}
+</head>
 
-		{% block javascripts %}
-			{{ encore_entry_script_tags('app') }}
-			{% block importmap %}
-				{{ importmap('app') }}
-			{% endblock %}
-		{% endblock %}
-	</head>
+<body>
+    <main>
+        {% block body %}{% endblock %}
+    </main>
 
-	<main>
-		{% block body %}{% endblock %}
-	</main>
-
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</body>
 </html>
