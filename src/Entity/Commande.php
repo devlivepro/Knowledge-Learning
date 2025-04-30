@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use App\Repository\CommandeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\User;
+use App\Entity\Cursus;
+use App\Entity\Lesson;
 
 #[ORM\Entity(repositoryClass: CommandeRepository::class)]
 class Commande
@@ -20,8 +23,8 @@ class Commande
     #[ORM\ManyToOne(targetEntity: Cursus::class)]
     private ?Cursus $cursus = null;
 
-    #[ORM\ManyToOne(targetEntity: Leçon::class)]
-    private ?Leçon $leçon = null;
+    #[ORM\ManyToOne(targetEntity: Lesson::class)]
+    private ?Lesson $lesson = null;
 
     #[ORM\Column]
     private ?float $total = null;
@@ -47,7 +50,6 @@ class Commande
     public function setUser(?User $user): static
     {
         $this->user = $user;
-
         return $this;
     }
 
@@ -59,19 +61,17 @@ class Commande
     public function setCursus(?Cursus $cursus): static
     {
         $this->cursus = $cursus;
-
         return $this;
     }
 
-    public function getLeçon(): ?Leçon
+    public function getLesson(): ?Lesson
     {
-        return $this->leçon;
+        return $this->lesson;
     }
 
-    public function setLeçon(?Leçon $leçon): static
+    public function setLesson(?Lesson $lesson): static
     {
-        $this->leçon = $leçon;
-
+        $this->lesson = $lesson;
         return $this;
     }
 
@@ -83,7 +83,6 @@ class Commande
     public function setTotal(float $total): static
     {
         $this->total = $total;
-
         return $this;
     }
 
@@ -95,7 +94,6 @@ class Commande
     public function setStatus(string $status): static
     {
         $this->status = $status;
-
         return $this;
     }
 
@@ -107,7 +105,6 @@ class Commande
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 }
