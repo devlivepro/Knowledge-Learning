@@ -8,5 +8,8 @@
   "scripts": {
     "dev": "encore dev",
     "build": "encore production"
+  },
+  "dependencies": {
+    "core-js": "3.23"
   }
 }
