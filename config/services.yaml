@@ -29,5 +29,13 @@ services:
     arguments:
       $mailjetApiKey: "%env(MAILJET_API_KEY)%"
       $mailjetApiSecret: "%env(MAILJET_API_SECRET)%"
-  # add more service definitions when explicit configuration is needed
-  # please note that last definitions always *replace* previous ones
+
+  App\EventListener\UserListener:
+    tags:
+      - { name: doctrine.orm.entity_listener }
+    arguments:
+      $security: '@security.helper'
+
+  App\Service\InvoiceManager:
+    arguments:
+      $projectDir: '%kernel.project_dir%'
