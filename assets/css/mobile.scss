@@ -1,0 +1,40 @@
+@media (max-width: 576px) {
+    .dashboard-main {
+        margin-left: auto;
+      }
+    
+      .dashboard-container {
+        flex-direction: column;
+      }
+    
+      #sidebar {
+        position: absolute;
+        transform: translateX(-100%);
+        z-index: 1000;
+      }
+    
+      #sidebar.active {
+        transform: translateX(0);
+      }
+    
+      .hamburger {
+        display: block;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 1.5rem;
+        background: none;
+        border: none;
+        color: $color-4;
+        z-index: 1101;
+        cursor: pointer;
+      }
+    
+      .item-row {
+        padding: 0.5rem;
+      }
+    
+      .item-card {
+        max-width: 100%;
+      }
+}
