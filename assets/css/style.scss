@@ -1,4 +1,8 @@
-/* SCSS */
+@import "./admin.scss"; /* Import scss admin */
+@import "./mobile.scss"; /* Import scss mobile */
+@import "./tablet.scss"; /* Import scss tablet */
+
+/* Colors Template*/
 $color-1: #f1f8fc;
 $color-2: #0074c7;
 $color-3: #00497c;
@@ -7,11 +11,11 @@ $color-5: #cd2c2e;
 $color-6: #82b864;
 $color-7: #fff;
 
-/* Style général pour la page */
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
-  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-family: "Comic Sans MS", cursive, sans-serif;
   height: 100%;
   background-color: $color-1;
 }
@@ -59,18 +63,18 @@ nav a.active {
 }
 
 h1 {
-
-}
-
-h2 {
-
-}
-
-h3 {
   color: $color-6;
 }
 
-/* Conteneur global */
+h2 {
+  color: $color-6;
+}
+
+h3 {
+  color: $color-4;
+}
+
+/* Contener global */
 .container-custom {
   display: flex;
   flex-direction: column;
@@ -78,22 +82,19 @@ h3 {
   width: 100vw;
 }
 
-/* Conteneur pour le contenu principal (image + formulaire) */
 .content-wrapper {
   display: flex;
   flex-grow: 1;
 }
 
-/* Section gauche pour l'image */
 .image-section {
   flex: 1;
-  background-image: url("../img/background.jpg");
+  background-image: url("../img/background.webp");
   background-size: cover;
   background-position: center;
   height: 100vh;
 }
 
-/* Section droite pour le formulaire */
 .form-section-home {
   flex: 1;
   background-color: $color-7;
@@ -134,7 +135,6 @@ h3 {
   max-height: 90px;
 }
 
-/* Style du formulaire */
 .login-form {
   width: 100%;
   background-color: $color-7;
@@ -194,10 +194,30 @@ h3 {
   font-size: 16px;
   border-radius: 5px;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .btn:hover {
   background-color: $color-3;
+}
+
+.btn_go {
+  border-radius: 90px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: 0;
+  width: 20%;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.1rem;
+  background: $color-5 no-repeat 85% 50%;
+  text-decoration: none;
+  margin-block-end: 1.5rem;
+  padding: 10px;
+}
+.btn_go:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .alert {
@@ -207,6 +227,24 @@ h3 {
   padding: 10px;
   border-radius: 5px;
   margin-top: 15px;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: $color-6;
+  border: 1px solid #c3e6cb;
+  padding: 0.75rem 1.25rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: $color-5;
+  border: 1px solid #f5c6cb;
+  padding: 0.75rem 1.25rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
 }
 
 .mt-3 {
@@ -223,20 +261,29 @@ h3 {
   text-decoration: underline;
 }
 
-section.highlighted-products {
+.heading {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background-color: $color-2;
+  border-bottom: 2px solid $color-3;
+  color: white;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.formation {
   align-items: center;
   display: flex;
   flex-direction: column;
   margin-bottom: 40px;
   text-align: center;
-}
-
-.product-grid-high {
-  display: grid;
-  gap: 20px;
-  grid-template-columns: repeat(3, 1fr);
-  margin: 0 auto;
-  max-width: 1200px;
+  background-color: $color-4;
+  border-bottom: 4px solid #00497c;
+  color: white;
+  font-size: 1.5rem;
+  padding: 20px;
 }
 
 .company-presentation {
@@ -257,9 +304,172 @@ section.highlighted-products {
   color: $color-5;
 }
 
+.why-choose-us {
+  padding: 0;
+  background-color: $color-1;
+  text-align: center;
+  margin-block-end: 50px;
+}
+
+.section-title {
+  font-size: 32px;
+  margin-bottom: 40px;
+}
+
+/* CARD SECTION 1 */
+.card-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.card {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card h3 {
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+.card p {
+  font-size: 16px;
+}
+
+/* CARD SECTION 2 */
+.card2-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.custom2-cards {
+  padding: 60px 20px;
+  text-align: center;
+  background: #f9f9f9;
+}
+
+.custom-title {
+  font-size: 36px;
+  margin-bottom: 50px;
+  color: #333;
+}
+
+.cards2-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.card2 {
+  background: #fff;
+  width: 260px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding-bottom: 20px;
+}
+
+.card2:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card2-image {
+  height: 160px;
+  background-size: cover;
+  background-position: center;
+}
+
+.card2 h3 {
+  font-size: 22px;
+  margin-top: 20px;
+}
+
+.card2 p {
+  font-size: 16px;
+  padding: 0 10px;
+  margin-top: 10px;
+  color: $color-4;
+  margin-left: 10px;
+  margin-right: 10px;
+  height: 90px;
+}
+
+.card3 {
+  background: #fff;
+  width: 400px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding-bottom: 20px;
+}
+
+.music-title {
+  color: $color-5;
+}
+
+.it-title {
+  color: $color-2;
+}
+
+.gardening-title {
+  color: $color-4;
+}
+
+.kitchen-title {
+  color: $color-3;
+}
+
+/* Settings Pictures */
+.card2 img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.btn-custom {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(135deg, #0074c7 0%, #00497c 100%);
+  border: 2px solid #00497c;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: background 0.3s, transform 0.2s;
+}
+.btn-custom:hover {
+  background: linear-gradient(135deg, #00497c 0%, #0074c7 100%);
+  transform: translateY(-2px);
+}
+.btn-custom:active {
+  background: #00497c;
+  transform: translateY(0);
+}
+
+.text-go {
+  color: $color-5;
+}
+
 footer {
   text-align: center;
-  background-color: $color-4;
   color: $color-1;
 }
 
@@ -284,11 +494,11 @@ footer {
 }
 .company-info p,
 .social-links a {
-  color: $color-1;
+  color: $color-4;
   font-size: 17px;
 }
 .social-links a {
-  color: $color-1;
+  color: $color-4;
   display: block;
   margin-bottom: 5px;
   text-decoration: none;
