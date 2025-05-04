@@ -12,7 +12,7 @@ class SecurityController extends AbstractController
     #[Route('/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        // ➡️ Block user when connected and redirect to student
+        // Block user when connected and redirect to student
         if ($this->getUser()) {
             return $this->redirectToRoute('student');
         }
