@@ -1,0 +1,313 @@
+/* SCSS */
+$color-1: #f1f8fc;
+$color-2: #0074c7;
+$color-3: #00497c;
+$color-4: #384050;
+$color-5: #cd2c2e;
+$color-6: #82b864;
+$color-7: #fff;
+
+body {
+  background-color: #f8f9fa;
+}
+
+.dashboard-container {
+  display: flex;
+  height: 100vh; // vue pleine hauteur
+  overflow: hidden; // empêche le scroll global
+}
+
+// Sidebar
+#sidebar {
+  width: 250px;
+  background-color: #343a40;
+  color: #fff;
+  padding: 1rem;
+  position: fixed; // 🔥 ceci le rend fixe
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  overflow-y: auto; // scroll interne si le menu est plus grand que la hauteur
+}
+
+#sidebar h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #f1f8fc;
+  border-bottom: 1px solid #f1f8fc;
+  padding-bottom: 0.5rem;
+  text-align: center;
+}
+
+#sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: $color-1;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+#sidebar i {
+  width: 20px; // 👈 FIXE la largeur de toutes les icônes
+  text-align: center;
+  flex-shrink: 0;
+  font-size: 1rem;
+}
+
+#sidebar .link-text {
+  flex-grow: 1; // prend le reste de la ligne
+  text-align: left;
+}
+
+#sidebar a:hover {
+  background-color: #495057;
+}
+
+.dashboard-main {
+  margin-left: 300px;
+  flex-grow: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.dashboard-sidebar a.active {
+  background-color: #495057;
+  color: #fff;
+  border-radius: 5px;
+}
+
+.dashboard-sidebar i {
+  color: $color-1;
+}
+
+.hamburger {
+  display: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: #82b864;
+  margin: 1rem;
+  z-index: 1100;
+  position: relative;
+}
+
+/* Filtres */
+.theme-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.theme-filters button {
+  background: #0074c7;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.theme-filters button.active,
+.theme-filters button:hover {
+  background: #00497c;
+}
+
+/* Cartes */
+.item-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  gap: 1.5rem;
+  padding: 0;
+}
+
+.item-card {
+  max-width: 340px;
+  border: none;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.item-card .card-body {
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.item-card h5 {
+  font-weight: 600;
+  font-size: 1.14em;
+  color: $color-4;
+}
+
+.card-title {
+  font-size: 1.14rem;
+  font-weight: 600;
+  color: $color-4;
+  margin-bottom: 0.75rem;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 0.5rem;
+}
+
+.card-link {
+  text-decoration: none;
+}
+
+.card-number {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #0074c7;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.card-number:hover {
+  transform: translateY(-2px);
+  transition: 0.2s ease;
+}
+
+.lesson-section-title {
+  text-align: left;
+  color: #666;
+  font-weight: normal;
+  font-size: 1rem;
+  margin: 2rem 0 1rem;
+  border-top: 1px solid #dee2e6;
+  padding-top: 1rem;
+}
+
+.lesson-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lesson-item {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+  color: $color-4;
+}
+
+.lesson-item-home {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem; /* Ajoute du padding horizontal */
+  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+  color: #384050;
+  gap: 0.8rem; /* Espace entre l’icône et le texte */
+}
+
+.lesson-item:last-child {
+  border-bottom: none;
+}
+
+.lesson-title {
+  font-weight: 500;
+  color: #343a40;
+}
+
+.lesson-actions {
+  width: 120px;
+}
+
+.lesson-actions .price {
+  color: #495057;
+  font-size: 0.9rem;
+}
+
+.lesson-actions .btn {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+.results-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+.results-card {
+  width: 300px;
+}
+
+.certification-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+.certification-card {
+  width: 300px;
+}
+
+.separator-line {
+  display: block;
+  width: 100%;
+  margin: 1rem 0;
+  border-bottom: 1px solid $color-1;
+}
+
+.invoice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+.invoice-body p {
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.invoice-footer {
+  margin-top: 1rem;
+}
+
+/*Youtube Player*/
+.lesson-section {
+  background: #fff;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+.lesson-section h3 {
+  margin-bottom: 1rem;
+}
+.lesson-section p {
+  color: #555;
+}
+.lesson-video {
+  margin: 0;
+  max-width: 640px;
+}
+.lesson-video .ratio {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+}
+.lesson-video .ratio iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
