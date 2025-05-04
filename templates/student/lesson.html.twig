@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Leçon - {{ lesson.title }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('style') }}
+{% endblock %}
+
+{% block body %}
+<div class="dashboard-container">
+    <button id="hamburgerButton" class="hamburger">☰</button>
+    {% include 'includes/admin/admin_sidebar.twig' %}
+
+    <main class="dashboard-main">
+        <h1 class="text-center mb-4">📘 Leçon – {{ lesson.title }}</h1>
+
+        <div class="lesson-section">
+            <h3>{{ lesson.title }}</h3>
+            <p>{{ lesson.content }}</p>
+
+            {# Secure YouTube ID extraction #}
+            {% set id = lesson.videoUrl|split('?v=')|last|split('&')|first|split('/')|last %}
+            {% set embedUrl = 'https://www.youtube.com/embed/' ~ id ~ '?rel=0&autoplay=0' %}
+
+            <div class="lesson-video">
+                <div class="ratio">
+                    <iframe src="{{ embedUrl }}" title="Vidéo – {{ lesson.title }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            {% if not isValidated %}
+                <a href="{{ path('student_validate_lesson', {'id': lesson.id}) }}" class="btn btn-primary mt-3">Valider cette leçon</a>
+            {% else %}
+                <span class="badge bg-success mt-3">Leçon validée</span>
+            {% endif %}
+        </div>
+    </main>
+</div>
+{% endblock %}
