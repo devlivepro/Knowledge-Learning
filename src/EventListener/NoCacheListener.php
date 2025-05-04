@@ -11,7 +11,7 @@ class NoCacheListener
         $request = $event->getRequest();
         $response = $event->getResponse();
 
-        // Liste des routes sensibles sans cache
+        // List of sensitive routes without cache
         $routesNoCache = [
             'app_login',
             'app_register',
