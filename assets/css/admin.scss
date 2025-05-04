@@ -13,8 +13,8 @@ body {
 
 .dashboard-container {
   display: flex;
-  height: 100vh; // vue pleine hauteur
-  overflow: hidden; // empêche le scroll global
+  height: 100vh;
+  overflow: hidden;
 }
 
 // Sidebar
@@ -23,12 +23,12 @@ body {
   background-color: #343a40;
   color: #fff;
   padding: 1rem;
-  position: fixed; // 🔥 ceci le rend fixe
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   z-index: 1000;
-  overflow-y: auto; // scroll interne si le menu est plus grand que la hauteur
+  overflow-y: auto;
 }
 
 #sidebar h2 {
@@ -52,14 +52,14 @@ body {
 }
 
 #sidebar i {
-  width: 20px; // 👈 FIXE la largeur de toutes les icônes
+  width: 20px;
   text-align: center;
   flex-shrink: 0;
   font-size: 1rem;
 }
 
 #sidebar .link-text {
-  flex-grow: 1; // prend le reste de la ligne
+  flex-grow: 1;
   text-align: left;
 }
 
@@ -205,12 +205,12 @@ body {
 .lesson-item-home {
   display: flex;
   align-items: center;
-  padding: 0.5rem 1rem; /* Ajoute du padding horizontal */
+  padding: 0.5rem 1rem;
   border-bottom: 1px solid #e9ecef;
   margin-bottom: 0.3rem;
   font-size: 0.9rem;
   color: #384050;
-  gap: 0.8rem; /* Espace entre l’icône et le texte */
+  gap: 0.8rem;
 }
 
 .lesson-item:last-child {
