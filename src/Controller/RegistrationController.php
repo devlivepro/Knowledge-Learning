@@ -28,7 +28,7 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator): Response
     {
-        // ➡️ Block user when connected and redirect to student
+        // Block user when connected and redirect to student
         if ($this->getUser()) {
             return $this->redirectToRoute('student');
         }
@@ -52,6 +52,13 @@ class RegistrationController extends AbstractController
                 $form->get('plainPassword')->getData()
             );
             $user->setPassword($hashedPassword);
+
+            // Set creation date
+            $user->setCreatedAt(new \DateTimeImmutable());
+
+            if ($this->getUser()) {
+                $user->setCreatedBy($this->getUser());
+            }
 
             // Save user
             $entityManager->persist($user);
