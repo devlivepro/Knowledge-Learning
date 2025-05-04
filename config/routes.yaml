@@ -1,21 +1,26 @@
+# config/routes.yaml
+
+# Automatically import all controller classes using PHP 8 attributes
 controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
-    type: attribute
+  resource: ../src/Controller/
+  namespace: App\Controller
+  type: attribute
 
-# Route pour la page d'accueil
+# Home page route
 app_home:
-    path: /
-    controller: App\Controller\HomeController::index
+  path: / # URL path for the home page
+  controller: App\Controller\HomeController::index
 
+# Password reset request page
 reset_password_request:
-    path: /forgot-password
-    controller: App\Controller\ResetPasswordController::request
+  path: /forgot-password # URL where users can request a password reset
+  controller: App\Controller\ResetPasswordController::request
 
+# Student dashboard route
 student:
-    path: /student
-    controller: App\Controller\StudentController::index
+  path: /student # URL for the student area/dashboard
+  controller: App\Controller\StudentController::index
 
+# Logout route (handled by Symfony security, no controller method needed)
 app_logout:
-    path: /logout
+  path: /logout
