@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Résultats
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('style') }}
+{% endblock %}
+
+
+{% block body %}
+
+	<div
+		class="dashboard-container">
+
+		{# Button hamburger #}
+		<button id="hamburgerButton" class="hamburger">☰</button>
+
+		{# Sidebar #}
+		{% include 'includes/admin/admin_sidebar.twig' %}
+
+		<!-- Main content -->
+		<main class="dashboard-main">
+			<h1 class="text-center mb-4">Mes Résultats</h1>
+
+			{% if lessons is empty %}
+				<p class="text-center">Aucune leçon achetée.</p>
+			{% else %}
+				<div class="results-row">
+					{% for lesson in lessons %}
+						<div class="card shadow results-card text-center">
+							<div class="card-body d-flex flex-column">
+								<h5 class="card-title">{{ lesson.title }}</h5>
+								<p>
+									<strong>Prix :</strong>
+									{{ lesson.price }}
+									€</p>
+
+								{% if lesson.id in validatedIds %}
+									<p class="text-success">
+										<i class="fas fa-check-circle text-success"></i>
+										Leçon validée</p>
+								{% else %}
+									<p class="text-danger">
+										<i class="fas fa-times-circle text-danger"></i>
+										Leçon non validée</p>
+								{% endif %}
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			{% endif %}
+		</main>
+	</div>
+{% endblock %}
