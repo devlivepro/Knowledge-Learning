@@ -6,4 +6,12 @@ import './bootstrap.js';
  * which should already be in your base.html.twig.
  */
 
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+
+// assets/app.js
+import { reloadOnBack } from './js/reloadOnBack';
+import './js/hamburger.js';
+import './js/hamburgerHome.js'
+import './js/tagfilter.js';
+
+
+reloadOnBack();

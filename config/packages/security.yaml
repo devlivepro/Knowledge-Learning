@@ -1,59 +1,65 @@
 security:
-    # Gestion des encodages de mot de passe
+    # Password hashing configuration for App\Entity\User
+    # 'auto' lets Symfony choose the best available hasher (e.g. sodium, bcrypt)
     password_hashers:
         App\Entity\User:
             algorithm: auto
 
-    # Fournisseurs d'utilisateurs : on utilise l'entité User pour charger les utilisateurs depuis la base de données
+    # User providers define how to load users from a data source
     providers:
         app_user_provider:
             entity:
+                # The User entity class used to fetch user records
                 class: App\Entity\User
+                # Property on the User entity to match the login identifier
                 property: username
 
+    # Firewalls protect different parts of your application
     firewalls:
+        # Disable security for development URLs and assets
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        # Main firewall for the application
         main:
-            lazy: true
-            provider: app_user_provider
+            lazy: true                                 # Delay authentication until needed
+            provider: app_user_provider                # Use the provider defined above
+            user_checker: App\Security\UserChecker     # Custom checks after user is loaded
             custom_authenticator: App\Security\LoginFormAuthenticator
+            entry_point: form_login                    # Where to redirect when not authenticated
 
-            # Point d'entrée : utiliser form_login pour rediriger vers /login
-            entry_point: form_login
-
-            # Le formulaire de connexion
+            # Form login configuration
             form_login:
-                login_path: app_login
-                check_path: app_login
-                enable_csrf: true
-            
+                login_path: app_login                  # Route name for the login form
+                check_path: app_login                  # Route to submit the login credentials
+                enable_csrf: true                      # Enable CSRF protection on the login form
+
+            # Logout configuration
             logout:
-                path: app_logout
-                # Redirection après la déconnexion (ici vers la page de login)
-                target: app_login
+                path: app_logout                       # Route used to log out
+                target: app_login                      # Where to redirect after logout
 
+            # Remember-me functionality for persistent login
             remember_me:
-                secret: '%kernel.secret%'
-                lifetime: 604800 # 1 semaine
-                path: /
-                # Le "Remember me" est activé par une case à cocher dans le formulaire
-                # Décommente la ligne ci-dessous si tu veux l'activer automatiquement
-                # always_remember_me: true
+                secret: '%kernel.secret%'              # Secret key for token generation
+                lifetime: 604800                       # Token validity in seconds (1 week)
+                path: /                                # Cookie path
+                # always_remember_me: true             # Uncomment to auto-enable remember-me for all logins
 
-    # Contrôle d'accès basé sur les rôles des utilisateurs
+    # Access control rules, evaluated in order from top to bottom
     access_control:
-        - { path: ^/admin, roles: ROLE_ADMIN }  # Exemple d'accès restreint à l'admin
-        - { path: ^/profile, roles: ROLE_USER }  # Exemple d'accès restreint aux utilisateurs connectés
+        - { path: ^/admin,   roles: ROLE_ADMIN }     # Only users with ROLE_ADMIN can access /admin
+        - { path: ^/student, roles: ROLE_USER }      # Only authenticated users with ROLE_USER can access /student
+        - { path: ^/visitor, roles: PUBLIC_ACCESS }  # Allow anonymous access to /visitor
 
+# Override security settings when running tests
 when@test:
     security:
         password_hashers:
-            # Utilisation de hashers plus légers pour les tests
+            # Use lighter, faster hashers for test suite performance
             Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
                 algorithm: auto
-                cost: 4  # Valeur minimale pour bcrypt
-                time_cost: 3  # Valeur minimale pour argon
-                memory_cost: 10  # Valeur minimale pour argon
+                cost: 4        # Minimum cost for bcrypt
+                time_cost: 3   # Minimum time cost for Argon2
+                memory_cost: 10 # Minimum memory cost for Argon2
