@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Certifications
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('style') }}
+{% endblock %}
+
+{% block body %}
+
+	<div class="dashboard-container">
+
+		{# Bouton hamburger #}
+		<button id="hamburgerButton" class="hamburger">☰</button>
+
+		{# Sidebar #}
+		{% include 'includes/admin/admin_sidebar.twig' %}
+
+		<!-- Main content -->
+		<main class="dashboard-main">
+			<h1 class="text-center mb-4">Mes Certifications</h1>
+
+			{% if certifications is not empty %}
+				<div class="certification-row">
+					{% for certification in certifications %}
+						<div class="card shadow-sm text-center certification-card">
+							<div class="card-body d-flex flex-column">
+								<h5 class="card-title">{{ certification.cursus.title }}</h5>
+								<p class="card-text">Formation :
+									{{ certification.cursus.title }}</p>
+								<p class="card-text">Délivré le
+									{{ certification.obtainedAt|date('d/m/Y') }}</p>
+
+								{% if certification.filename and certification.hasFile %}
+									<a href="{{ asset('uploads/certifications/' ~ certification.filename) }}" class="btn btn-success mt-auto" download target="_blank">
+										📥 Télécharger le certificat
+									</a>
+								{% else %}
+									<span class="text-muted mt-auto">Certificat en cours de génération</span>
+								{% endif %}
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			{% else %}
+				<p class="text-center">Vous n'avez pas encore de certifications.</p>
+			{% endif %}
+		</main>
+	</div>
+
+{% endblock %}
