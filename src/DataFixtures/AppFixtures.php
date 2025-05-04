@@ -4,114 +4,129 @@ namespace App\DataFixtures;
 
 use App\Entity\Theme;
 use App\Entity\Cursus;
-use App\Entity\Leçon;
+use App\Entity\Lesson;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
-    public function load(ObjectManager $manager): void
+    private UserPasswordHasherInterface $passwordHasher;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
-        // Create Themes and their corresponding Cursus and Lessons
-
-        // Theme: Music
-        $musicTheme = new Theme();
-        $musicTheme->setName('Music');
-        $manager->persist($musicTheme);
-
-        // Cursus: Guitar Basics
-        $guitarCursus = new Cursus();
-        $guitarCursus->setTitle('Guitar Basics');
-        $guitarCursus->setPrice(50); // Price as per the specifications
-        $guitarCursus->setTheme($musicTheme);
-        $manager->persist($guitarCursus);
-
-        // Leçons for Guitar Basics
-        $this->createLesson($manager, $guitarCursus, 'Découverte de l’instrument', 26);
-        $this->createLesson($manager, $guitarCursus, 'Les accords et les gammes', 26);
-
-        // Cursus: Piano Basics
-        $pianoCursus = new Cursus();
-        $pianoCursus->setTitle('Piano Basics');
-        $pianoCursus->setPrice(50); // Price as per the specifications
-        $pianoCursus->setTheme($musicTheme);
-        $manager->persist($pianoCursus);
-
-        // Leçons for Piano Basics
-        $this->createLesson($manager, $pianoCursus, 'Découverte de l’instrument', 26);
-        $this->createLesson($manager, $pianoCursus, 'Les accords et les gammes', 26);
-
-        // Theme: Informatics
-        $informaticsTheme = new Theme();
-        $informaticsTheme->setName('Informatics');
-        $manager->persist($informaticsTheme);
-
-        // Cursus: Web Development
-        $webDevCursus = new Cursus();
-        $webDevCursus->setTitle('Web Development');
-        $webDevCursus->setPrice(60);
-        $webDevCursus->setTheme($informaticsTheme);
-        $manager->persist($webDevCursus);
-
-        // Leçons for Web Development
-        $this->createLesson($manager, $webDevCursus, 'Les langages Html et CSS', 32);
-        $this->createLesson($manager, $webDevCursus, 'Dynamiser votre site avec Javascript', 32);
-
-        // Theme: Gardening
-        $gardeningTheme = new Theme();
-        $gardeningTheme->setName('Gardening');
-        $manager->persist($gardeningTheme);
-
-        // Cursus: Gardening 101
-        $gardeningCursus = new Cursus();
-        $gardeningCursus->setTitle('Gardening 101');
-        $gardeningCursus->setPrice(30);
-        $gardeningCursus->setTheme($gardeningTheme);
-        $manager->persist($gardeningCursus);
-
-        // Leçons for Gardening 101
-        $this->createLesson($manager, $gardeningCursus, 'Les outils du jardinier', 16);
-        $this->createLesson($manager, $gardeningCursus, 'Jardiner avec la lune', 16);
-
-        // Theme: Cooking
-        $cookingTheme = new Theme();
-        $cookingTheme->setName('Cooking');
-        $manager->persist($cookingTheme);
-
-        // Cursus: Culinary Basics
-        $culinaryCursus = new Cursus();
-        $culinaryCursus->setTitle('Culinary Basics');
-        $culinaryCursus->setPrice(44);
-        $culinaryCursus->setTheme($cookingTheme);
-        $manager->persist($culinaryCursus);
-
-        // Leçons for Culinary Basics
-        $this->createLesson($manager, $culinaryCursus, 'Les modes de cuisson', 23);
-        $this->createLesson($manager, $culinaryCursus, 'Les saveurs', 23);
-
-        // Cursus: Food Styling
-        $foodStylingCursus = new Cursus();
-        $foodStylingCursus->setTitle('Food Styling');
-        $foodStylingCursus->setPrice(48);
-        $foodStylingCursus->setTheme($cookingTheme);
-        $manager->persist($foodStylingCursus);
-
-        // Leçons for Food Styling
-        $this->createLesson($manager, $foodStylingCursus, 'Mettre en œuvre le style dans l’assiette', 26);
-        $this->createLesson($manager, $foodStylingCursus, 'Harmoniser un repas à quatre plats', 26);
-
-        // Persist all data
-        $manager->flush();
+        $this->passwordHasher = $passwordHasher;
     }
 
-    // Helper function to create lessons
-    private function createLesson(ObjectManager $manager, Cursus $cursus, string $title, float $price): void
+    public function load(ObjectManager $manager): void
     {
-        $lesson = new Leçon();
-        $lesson->setTitle($title);
-        $lesson->setContent('Lorem ipsum content for ' . $title);
-        $lesson->setVideoUrl('https://www.example.com/video/' . strtolower(str_replace(' ', '-', $title)));
-        $lesson->setCursus($cursus);
-        $manager->persist($lesson);
+        // 1. Theme metadata (text, image, icon)
+        $themesMeta = [
+            'Musique' => [
+                'text'  => 'Apprenez à maîtriser un instrument grâce à nos cours experts.',
+                'image' => 'music.webp',
+                'icon'  => 'fa-music',
+                'cursus'=> [
+                    ['Cursus d’initiation à la guitare', 50, [
+                        ['Découverte de l’instrument', 26],
+                        ['Les accords et les gammes', 26],
+                    ]],
+                    ['Cursus d’initiation au piano', 50, [
+                        ['Découverte de l’instrument', 26],
+                        ['Les accords et les gammes', 26],
+                    ]],
+                ],
+            ],
+            'Informatique' => [
+                'text'  => 'Développez vos compétences numériques et maîtrisez les outils technologiques de demain.',
+                'image' => 'it.webp',
+                'icon'  => 'fa-laptop-code',
+                'cursus'=> [
+                    ['Cursus d’initiation au développement web', 60, [
+                        ['Les langages HTML et CSS', 32],
+                        ['Dynamiser votre site avec Javascript', 32],
+                    ]],
+                ],
+            ],
+            'Jardinage' => [
+                'text'  => 'Apprenez à cultiver votre propre jardin et à entretenir vos espaces verts avec passion.',
+                'image' => 'gardening.webp',
+                'icon'  => 'fa-seedling',
+                'cursus'=> [
+                    ['Cursus d’initiation au jardinage', 30, [
+                        ['Les outils du jardinier', 16],
+                        ['Jardiner avec la lune', 16],
+                    ]],
+                ],
+            ],
+            'Cuisine' => [
+                'text'  => 'Découvrez l’art culinaire et réalisez des recettes savoureuses, de l\'entrée au dessert.',
+                'image' => 'kitchen.webp',
+                'icon'  => 'fa-utensils',
+                'cursus'=> [
+                    ['Cursus d’initiation à la cuisine', 44, [
+                        ['Les modes de cuisson', 23],
+                        ['Les saveurs', 23],
+                    ]],
+                    ['Cursus d’initiation au dressage culinaire', 48, [
+                        ['Mettre en œuvre le style dans l’assiette', 26],
+                        ['Harmoniser un repas à quatre plats', 26],
+                    ]],
+                ],
+            ],
+        ];
+
+        // 2. Creating themes + curricula + lessons
+        foreach ($themesMeta as $title => $meta) {
+            $theme = new Theme();
+            $theme->setTitle($title)
+                  ->setText($meta['text'])
+                  ->setImage($meta['image'])
+                  ->setIcon($meta['icon'])
+            ;
+            $manager->persist($theme);
+
+            foreach ($meta['cursus'] as [$cTitle, $cPrice, $lessons]) {
+                $cursus = new Cursus();
+                $cursus->setTitle($cTitle)
+                       ->setPrice($cPrice)
+                       ->setTheme($theme)
+                ;
+                $manager->persist($cursus);
+
+                foreach ($lessons as [$lTitle, $lPrice]) {
+                    $lesson = new Lesson();
+                    $lesson->setTitle($lTitle)
+                           ->setContent('Contenu de la leçon : ' . $lTitle)
+                           ->setVideoUrl('https://example.com/video.mp4')
+                           ->setPrice($lPrice)
+                           ->setCursus($cursus)
+                    ;
+                    $manager->persist($lesson);
+                }
+            }
+        }
+
+        // 3. User creation
+        $admin = new User();
+        $admin->setEmail('admin@example.com')
+              ->setUsername('admin')
+              ->setRoles(['ROLE_ADMIN'])
+              ->setPassword($this->passwordHasher->hashPassword($admin, 'password'))
+              ->setActivated(true)
+        ;
+        $manager->persist($admin);
+
+        $student = new User();
+        $student->setEmail('student@example.com')
+                ->setUsername('student')
+                ->setRoles(['ROLE_USER'])
+                ->setPassword($this->passwordHasher->hashPassword($student, 'password'))
+                ->setActivated(true)
+        ;
+        $manager->persist($student);
+
+        $manager->flush();
     }
 }

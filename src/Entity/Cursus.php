@@ -4,8 +4,10 @@ namespace App\Entity;
 
 use App\Repository\CursusRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\EntityListeners;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use App\Entity\Lesson;
 
 #[ORM\Entity(repositoryClass: CursusRepository::class)]
 class Cursus
@@ -21,11 +23,23 @@ class Cursus
     #[ORM\Column]
     private ?float $price = null;
 
+    #[ORM\Column(type: 'datetime_immutable', options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    private ?User $createdBy = null;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    private ?User $updatedBy = null;
+
     #[ORM\ManyToOne(inversedBy: 'cursus')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Theme $theme = null;
 
-    #[ORM\OneToMany(mappedBy: 'cursus', targetEntity: Leçon::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'cursus', targetEntity: Lesson::class, orphanRemoval: true)]
     private Collection $lessons;
 
     public function __construct()
@@ -49,7 +63,6 @@ class Cursus
     public function setTitle(string $title): static
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -63,7 +76,6 @@ class Cursus
     public function setPrice(float $price): static
     {
         $this->price = $price;
-
         return $this;
     }
 
@@ -77,7 +89,6 @@ class Cursus
     public function setTheme(?Theme $theme): static
     {
         $this->theme = $theme;
-
         return $this;
     }
 
@@ -88,7 +99,7 @@ class Cursus
     }
 
     // Add a lesson to the cursus
-    public function addLesson(Leçon $lesson): static
+    public function addLesson(Lesson $lesson): static
     {
         if (!$this->lessons->contains($lesson)) {
             $this->lessons->add($lesson);
@@ -99,7 +110,7 @@ class Cursus
     }
 
     // Remove a lesson from the cursus
-    public function removeLesson(Leçon $lesson): static
+    public function removeLesson(Lesson $lesson): static
     {
         if ($this->lessons->removeElement($lesson)) {
             // Set the owning side to null (unless already changed)
@@ -108,6 +119,50 @@ class Cursus
             }
         }
 
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): static
+    {
+        $this->createdBy = $createdBy;
+        return $this;
+    }
+
+    public function getUpdatedBy(): ?User
+    {
+        return $this->updatedBy;
+    }
+
+    public function setUpdatedBy(?User $updatedBy): static
+    {
+        $this->updatedBy = $updatedBy;
         return $this;
     }
 }
