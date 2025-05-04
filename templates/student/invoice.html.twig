@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Factures
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('style') }}
+{% endblock %}
+
+{% block body %}
+	<div class="dashboard-container">
+		<button id="hamburgerButton" class="hamburger">☰</button>
+		{% include 'includes/admin/admin_sidebar.twig' %}
+
+		<main class="dashboard-main">
+			<h1 class="mb-4">Mes achats</h1>
+
+			{% if orders is not empty %}
+				<div class="results-row">
+					{% for order in orders %}
+						<div class="card">
+							<div class="invoice-header">
+								<h5 class="card-title">
+									{{ order.cursus is not null ? order.cursus.title : (order.lesson is not null ? order.lesson.title : '—') }}
+								</h5>
+							</div>
+							<div class="invoice-body">
+								<p>
+									<strong>Thème :</strong>
+									{{ order.cursus is not null 
+                  ? order.cursus.theme.title 
+                  : (order.lesson is not null 
+                      ? order.lesson.cursus.theme.title 
+                      : '—') }}
+								</p>
+								<p>
+									<strong>Prix :</strong>
+									{{ order.total }}
+									€
+								</p>
+								<p>
+									<strong>Date :</strong>
+									{{ order.createdAt|date('d/m/Y à H:i') }}
+								</p>
+								<p>
+									<strong>Status :</strong>
+									{{ order.status }}
+								</p>
+							</div>
+							<div class="invoice-footer">
+								<a href="{{ path('student_invoice_download', { id: order.id }) }}" class="btn btn-outline-primary mt-2 w-100">
+									📄 Télécharger la facture
+								</a>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			{% else %}
+				<p>Aucun achat effectué pour le moment.</p>
+			{% endif %}
+		</main>
+	</div>
+{% endblock %}

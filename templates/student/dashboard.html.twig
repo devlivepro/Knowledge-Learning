@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon espace étudiant
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('style') }}
+{% endblock %}
+
+{% block body %}
+	<div class="dashboard-container">
+
+		{# Button hamburger #}
+		<button id="hamburgerButton" class="hamburger">☰</button>
+
+		{# Sidebar #}
+		{% include 'includes/admin/admin_sidebar.twig' %}
+
+		<main class="dashboard-main">
+			<h1 class="mb-4">Bienvenue
+				{{ app.user.username }}
+				!</h1>
+
+			<div class="card-grid">
+				<div class="card shadow-sm">
+					<div class="card-body text-center">
+						<h5 class="card-title"><i class="fas fa-graduation-cap"></i> Mes Formations</h5>
+						<a href="{{ path('student_courses') }}" class="card-link">
+							<span class="card-number">{{ orders|length }}</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</main>
+
+	</div>
+{% endblock %}

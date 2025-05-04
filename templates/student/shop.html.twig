@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Boutique de formations
+
+{% endblock %}
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('style') }}
+{% endblock %}
+
+{% block body %}
+	<div
+		class="dashboard-container">
+
+		{# hamburger button #}
+		<button id="hamburgerButton" class="hamburger">☰</button>
+
+		{# On inclut directement l’aside déjà défini dans admin_sidebar.twig #}
+		{% include 'includes/admin/admin_sidebar.twig' %}
+
+		{# Contenu principal #}
+		<main class="dashboard-main">
+			<h1 class="text-center mb-4">Boutique de formations</h1>
+
+			{% if themes is not empty %}
+				<div class="theme-filters">
+					<button class="filter-btn active" data-theme-id="all">Tous</button>
+					{% for theme in themes %}
+						<button class="filter-btn" data-theme-id="{{ theme.id }}">{{ theme.title }}</button>
+					{% endfor %}
+				</div>
+
+				<div id="all-items">
+					{% for theme in themes %}
+						<section class="theme-section" data-theme-id="{{ theme.id }}">
+							<h2 class="mt-4 text-success text-center">{{ theme.title }}</h2>
+							<div class="item-row">
+								{% for cursus in theme.cursus %}
+									<div class="card shadow-sm item-card">
+										<div class="card-body">
+											<h5 class="text-center mb-2">{{ cursus.title }}</h5>
+											<p class="text-center text-muted mb-3">
+												Pack complet :
+												<strong>{{ cursus.price }}
+													€</strong>
+											</p>
+
+											{% if cursus.id in purchasedFromLessonCursusIds %}
+												<span class="badge bg-secondary">Pack indisponible</span>
+											{% elseif cursus.id in purchasedCursusIds %}
+												<span class="badge bg-success">✔️ Pack acheté</span>
+											{% else %}
+												<a href="{{ path('cursus_buy', {id: cursus.id}) }}" class="btn btn-success mb-3 w-100">
+													🎁 Acheter le pack complet
+												</a>
+											{% endif %}
+
+											<h4 class="lesson-section-title">Leçons à l’unité</h4>
+
+											<ul class="lesson-list">
+												{% for lesson in cursus.lessons %}
+													<li class="lesson-item">
+														<span class="lesson-title">{{ lesson.title }}</span>
+														<div class="lesson-actions">
+															<span class="price">{{ lesson.price }}
+																€</span>
+															{% if cursus.id in purchasedCursusIds %}
+																<span class="badge bg-secondary">Inclus</span>
+															{% elseif lesson.id in purchasedLessonIds %}
+																<span class="badge bg-success">Achetée</span>
+															{% else %}
+																<a href="{{ path('lesson_buy', {id: lesson.id}) }}" class="btn btn-outline-primary btn-sm">Acheter</a>
+															{% endif %}
+														</div>
+													</li>
+												{% endfor %}
+											</ul>
+										</div>
+									</div>
+								{% endfor %}
+							</div>
+						</section>
+					{% endfor %}
+				</div>
+			{% else %}
+				<p class="text-center">Aucune formation disponible.</p>
+			{% endif %}
+		</main>
+	</div>
+{% endblock %}
