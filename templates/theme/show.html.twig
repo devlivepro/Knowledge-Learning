@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ theme.title }} - Cursus{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">{{ theme.title }}</h1>
+
+    <div class="row">
+        {% for cursus in cursusList %}
+            <div class="col-md-6 mb-4">
+                <div class="card shadow">
+                    <div class="card-body text-center">
+                        <h3>{{ cursus.title }}</h3>
+                        <p>Prix : {{ cursus.price }} \u20ac</p>
+                        <a href="{{ path('cursus_buy', {'id': cursus.id}) }}" class="btn btn-success">
+                            Acheter ce cursus
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
