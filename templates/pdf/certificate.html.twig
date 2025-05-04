@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            text-align: center;
+            padding: 40px;
+            border: 10px solid #0074c7;
+        }
+        .logo {
+            width: 150px;
+            margin-bottom: 30px;
+        }
+        .title {
+            font-size: 36px;
+            color: #0074c7;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .subtitle {
+            font-size: 20px;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+        .student-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #cd2c2e;
+            margin: 15px 0;
+        }
+        .cursus-title {
+            font-size: 24px;
+            margin: 15px 0;
+        }
+        .date {
+            margin-top: 40px;
+            font-size: 16px;
+            color: #384050;
+        }
+        .footer {
+            margin-top: 50px;
+            font-size: 14px;
+            color: #384050;
+        }
+    </style>
+</head>
+<body>
+
+    {% if certification.user.username %}
+        <img src="{{ absolute_url(asset('images/logo.png')) }}" alt="Knowledge Learning" class="logo">
+    {% endif %}
+
+    <div class="title">Certificate of Achievement</div>
+
+    <div class="subtitle">This is awarded to</div>
+
+    <div class="student-name">{{ certification.user.username|upper }}</div>
+
+    <div class="subtitle">For successfully completing the training:</div>
+
+    <div class="cursus-title">{{ certification.cursus.title }}</div>
+
+    <div class="date">
+        Delivered on {{ certification.obtainedAt|date('d/m/Y') }}
+    </div>
+
+    <div class="footer">
+        Knowledge Learning - www.knowledge-learning.com
+    </div>
+
+</body>
+</html>

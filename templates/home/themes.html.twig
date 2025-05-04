@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos formations{% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  {{ encore_entry_link_tags('style') }}
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  {{ encore_entry_script_tags('app') }}
+{% endblock %}
+
+{% block body %}
+  {% include 'includes/header.html.twig' %}
+
+  <section class="formation" style="padding: 2rem 1rem;">
+    {% if themes is not empty %}
+      <div id="all-items">
+        {% for theme in themes %}
+          {% if selectedTheme is null or selectedTheme == theme.id %}
+            <section class="theme-section mb-5" data-theme-id="{{ theme.id }}">
+              <h2 class="text-success text-center mb-4">{{ theme.title }}</h2>
+              <div class="card2-container">
+                {% for cursus in theme.cursus %}
+                  <div class="card3">
+                    <h3 class="text-center">{{ cursus.title }}</h3>
+
+                    {% if cursus.lessons is not empty %}
+                      <ul class="lesson-list mt-3">
+                        {% for lesson in cursus.lessons %}
+                          <li class="lesson-item-home">
+                            <i class="fas fa-play-circle text-success me-2"></i> {{ lesson.title }}
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    {% else %}
+                      <p class="text-center text-muted">Aucune leçon disponible.</p>
+                    {% endif %}
+
+                    {# Bloc inscription #}
+                    <div class="text-center mt-4">
+                      <p class="text-go">Pour accéder à l'ensemble des cours, créez un compte gratuitement :</p>
+                      <a href="{{ path('app_register') }}" class="btn btn-outline-success">
+                        ✨ Je m'inscris
+                      </a>
+                    </div>
+
+                  </div>
+                {% endfor %}
+              </div>
+            </section>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-center">Aucune formation disponible pour le moment.</p>
+    {% endif %}
+  </section>
+
+  {% include 'includes/footer.html.twig' %}
+{% endblock %}
