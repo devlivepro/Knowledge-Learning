@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Suivi -{{ cursus.title }}
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('style') }}
+{% endblock %}
+
+{% block body %}
+
+	<div
+		class="dashboard-container">
+
+		{# Button hamburger #}
+		<button id="hamburgerButton" class="hamburger">☰</button>
+
+		{# Sidebar #}
+		{% include 'includes/admin/admin_sidebar.twig' %}
+
+		<!-- Main content -->
+		<main class="dashboard-main">
+			<h1 class="text-center mb-4">📘 Suivi -
+				{{ cursus.title }}</h1>
+
+			{% if lessons is not empty %}
+				<div class="mb-4 text-center">
+					<p class="fw-bold">Progression :
+						{{ validatedCount }}
+						/
+						{{ totalLessons }}
+						leçons validées</p>
+					<div class="progress" style="height: 25px;">
+						<div class="progress-bar bg-success" role="progressbar" style="width: {{ progressPercent|round(0,'floor') }}%;" aria-valuenow="{{ progressPercent|round(0,'floor') }}" aria-valuemin="0" aria-valuemax="100">
+							{{ progressPercent|round(0,'floor') }}%
+						</div>
+					</div>
+					{% if progressPercent >= 100 %}
+						<div class="alert alert-success text-center mt-4" role="alert">
+							🎉 Félicitations ! Vous avez terminé ce cursus.<br>
+							Votre certification est disponible dans
+							<a href="{{ path('student_certifications') }}" class="alert-link">Mes Certifications</a>.
+						</div>
+					{% endif %}
+				</div>
+			</br>
+
+			{# Detail of each lesson: text + embed video #}
+			{% for lesson in lessons %}
+				<div class="lesson-section">
+					<h3>{{ lesson.title }}</h3>
+					<p>{{ lesson.content }}</p>
+
+					{# Extract YouTube ID #}
+					{% set id = lesson.videoUrl|split('?v=')|last|split('&')|first|split('/')|last %}
+					{% set embedUrl = 'https://www.youtube.com/embed/' ~ id ~ '?rel=0&autoplay=0' %}
+
+					<div class="lesson-video">
+						<div class="ratio">
+							<iframe src="{{ embedUrl }}" title="Vidéo – {{ lesson.title }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+						</div>
+					</div>
+				</br>
+
+				{% if lesson.id not in validatedIds %}
+					<a href="{{ path('student_validate_lesson', {'id': lesson.id}) }}" class="btn btn-primary mt-3">Valider cette leçon</a>
+				{% else %}
+					<span class="badge bg-success mt-3">Leçon validée</span>
+				{% endif %}
+			</div>
+		{% endfor %}
+	{% else %}
+		<p class="text-center">Aucune leçon pour ce cursus.</p>
+	{% endif %}
+</main></div>{% endblock %}
