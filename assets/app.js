@@ -10,8 +10,11 @@ import './bootstrap.js';
 // assets/app.js
 import { reloadOnBack } from './js/reloadOnBack';
 import './js/hamburger.js';
-import './js/hamburgerHome.js'
+import './js/hamburgerHome.js';
 import './js/tagfilter.js';
+import './js/filterUserAdministrator.js';
+import './js/filterOrderAdministrator.js';
+
 
 
 reloadOnBack();
