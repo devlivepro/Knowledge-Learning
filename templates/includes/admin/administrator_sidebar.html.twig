@@ -1,0 +1,31 @@
+{# Sidebar #}
+<aside class="dashboard-sidebar" id="sidebar">
+	<h2>Administration</h2>
+
+	<a href="{{ path('admin_dashboard') }}" class="{{ app.request.attributes.get('_route') == 'admin_dashboard' ? 'active' : '' }}">
+		<i class="fas fa-home me-2"></i>
+		<span class="link-text">Accueil</span>
+	</a>
+
+	<a href="{{ path('admin_users') }}" class="{{ app.request.attributes.get('_route') starts with 'admin_users' ? 'active' : '' }}">
+		<i class="fas fa-store me-2"></i>
+		<span class="link-text">Utilisateurs</span>
+	</a>
+
+	<a href="{{ path('admin_orders') }}" class="{{ app.request.attributes.get('_route') starts with 'admin_orders' ? 'active' : '' }}">
+		<i class="fas fa-chart-line me-2"></i>
+		<span class="link-text">Commandes</span>
+	</a>
+
+	<span class="separator-line"></span>
+
+	<a href="{{ path('home') }}">
+		<i class="fas fa-globe me-2"></i>
+		<span class="link-text">Retour sur le site</span>
+	</a>
+
+	<a href="{{ path('app_logout') }}">
+		<i class="fas fa-sign-out-alt me-2"></i>
+		<span class="link-text">Déconnexion</span>
+	</a>
+</aside>
