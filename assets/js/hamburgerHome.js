@@ -3,13 +3,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("hamburgerButton");
   if (!sidebar || !btn) return;
 
-  // Toggle the sidebar visibility when the hamburger button is clicked
+  // Toggle sidebar
   btn.addEventListener("click", () => {
     const isOpen = sidebar.classList.toggle("active");
     btn.innerText = isOpen ? "✖" : "☰";
   });
 
-  // Close the sidebar when any link inside it is clicked
+  // Close on link click
   sidebar.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => {
       if (sidebar.classList.contains("active")) {
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Close the sidebar when clicking outside of it or the toggle button
+  // Close on outside click
   document.addEventListener("click", (e) => {
     if (
       sidebar.classList.contains("active") &&
@@ -31,11 +31,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Optionally close the sidebar on pressing the Escape key
+  // Close on Escape
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && sidebar.classList.contains("active")) {
       sidebar.classList.remove("active");
       btn.innerText = "☰";
     }
+  });
+
+  // ➕ Hide sidebar and button on scroll down, show on scroll up
+  let lastScrollTop = 0;
+  window.addEventListener("scroll", () => {
+    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (currentScroll > lastScrollTop) {
+      // Scroll down
+      if (sidebar.classList.contains("active")) {
+        sidebar.classList.remove("active");
+        btn.innerText = "☰";
+      }
+    }
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
   });
 });
