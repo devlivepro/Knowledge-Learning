@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('style') }}
+{% endblock %}
+
+{% block body %}
+	<div class="dashboard-container">
+
+		{# Button hamburger #}
+		<button id="hamburgerButton" class="hamburger">☰</button>
+
+		{# Sidebar #}
+		{% include 'includes/admin/administrator_sidebar.html.twig' %}
+
+		<main class="dashboard-main">
+			<h1 class="mb-4">Bienvenue
+				{{ app.user.username }}
+				!</h1>
+
+			<div class="card-grid">
+				<div class="card shadow-sm">
+					<div class="card-body text-center">
+						<h5 class="card-title">
+							<i class="fas fa-users"></i>
+							Utilisateurs</h5>
+						<span class="card-number">{{ userCount }}</span>
+					</div>
+				</div>
+			</div>
+		</main>
+
+	</div>
+{% endblock %}

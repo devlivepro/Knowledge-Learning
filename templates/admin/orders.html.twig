@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commandes
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('style') }}
+{% endblock %}
+
+{% block body %}
+	<div class="dashboard-container">
+		<button id="hamburgerButton" class="hamburger">☰</button>
+
+		{% include 'includes/admin/administrator_sidebar.html.twig' %}
+
+		<main class="dashboard-main">
+			<h1 class="mb-4">Historique des commandes</h1>
+
+			<input type="text" id="orderSearch" class="form-control mb-4" placeholder="🔍 Rechercher par utilisateur, email ou titre">
+
+			{% if orders is not empty %}
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+						<thead class="table-light">
+							<tr>
+								<th>ID</th>
+								<th>Utilisateur</th>
+								<th>Type</th>
+								<th>Nom</th>
+								<th>Montant</th>
+								<th>Date</th>
+								<th>Statut</th>
+								<th>Facture</th>
+							</tr>
+						</thead>
+						<tbody id="orderTableBody">
+							{% for order in orders %}
+								<tr>
+									<td>{{ order.id }}</td>
+									<td>
+										{{ order.user.firstname }}
+										{{ order.user.lastname }}<br>
+										<small>{{ order.user.email }}</small>
+									</td>
+									<td>
+										{% if order.cursus %}
+											Cursus
+										{% elseif order.lesson %}
+											Leçon
+										{% else %}
+											—
+										{% endif %}
+									</td>
+									<td>
+										{% if order.cursus %}
+											{{ order.cursus.title }}
+										{% elseif order.lesson %}
+											{{ order.lesson.title }}
+										{% else %}
+											—
+										{% endif %}
+									</td>
+									<td>{{ order.total }}
+										€</td>
+									<td>{{ order.createdAt|date('d/m/Y H:i') }}</td>
+									<td>{{ order.status }}</td>
+									<td>
+										<a href="{{ path('admin_invoice_download', { id: order.id }) }}" target="_blank" class="btn btn-outline-primary btn-sm">
+											📄 Télécharger
+										</a>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+
+					</table>
+				</div>
+			{% else %}
+				<p class="text-center">Aucune commande trouvée.</p>
+			{% endif %}
+		</main>
+	</div>
+
+{% endblock %}

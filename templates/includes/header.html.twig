@@ -18,9 +18,15 @@
 				Accueil
 			</a>
 			{% if app.user %}
-				<a href="{{ path('student_dashboard') }}" class="{{ app.request.attributes.get('_route') == 'app_student' ? 'active' : '' }}">
-					Espace formation
-				</a>
+				{% if 'ROLE_ADMIN' in app.user.roles %}
+					<a href="{{ path('admin_dashboard') }}" class="{{ app.request.attributes.get('_route') starts with 'admin' ? 'active' : '' }}">
+						Administration
+					</a>
+				{% else %}
+					<a href="{{ path('student_dashboard') }}" class="{{ app.request.attributes.get('_route') starts with 'student' ? 'active' : '' }}">
+						Espace formation
+					</a>
+				{% endif %}
 				<a href="{{ path('app_logout') }}">Se déconnecter</a>
 			{% else %}
 				<a href="{{ path('app_register') }}" class="{{ app.request.attributes.get('_route') == 'app_register' ? 'active' : '' }}">
@@ -34,7 +40,7 @@
 	</div>
 </header>
 
-{# Sidebar mobile HOME – seulement Accueil, Espace formation, Se déconnecter #}
+{# HOME mobile sidebar - only Home, Training area, Log out #}
 <aside class="dashboard-sidebar-home" id="sidebar-home">
 	<a href="{{ path('app_home') }}" class="{{ app.request.attributes.get('_route') == 'app_home' ? 'active' : '' }}">
 		<i class="fas fa-home me-2"></i>
@@ -42,10 +48,18 @@
 	</a>
 
 	{% if app.user %}
-		<a href="{{ path('student_dashboard') }}" class="{{ app.request.attributes.get('_route') == 'app_student' ? 'active' : '' }}">
-			<i class="fas fa-graduation-cap me-2"></i>
-			<span class="link-text">Espace formation</span>
-		</a>
+		{% if 'ROLE_ADMIN' in app.user.roles %}
+			<a href="{{ path('admin_dashboard') }}" class="{{ app.request.attributes.get('_route') starts with 'admin' ? 'active' : '' }}">
+				<i class="fas fa-cogs me-2"></i>
+				<span class="link-text">Administration</span>
+			</a>
+		{% else %}
+			<a href="{{ path('student_dashboard') }}" class="{{ app.request.attributes.get('_route') starts with 'student' ? 'active' : '' }}">
+				<i class="fas fa-graduation-cap me-2"></i>
+				<span class="link-text">Espace formation</span>
+			</a>
+		{% endif %}
+
 		<a href="{{ path('app_logout') }}">
 			<i class="fas fa-sign-out-alt me-2"></i>
 			<span class="link-text">Se déconnecter</span>
@@ -61,87 +75,3 @@
 		</a>
 	{% endif %}
 </aside>
-
-{# CSS embarqué pour .dashboard-sidebar-home et #sidebar-home #}
-<style>
-	/* Desktop */
-	#main-nav {
-		display: flex;
-		gap: 1rem;
-	}
-	.hamburger-home,
-	.dashboard-sidebar-home {
-		display: none;
-	}
-
-	/* Mobile */
-	@media(max-width: 768px) {
-		/* Affiche le bouton */
-		.hamburger-home {
-			display: block;
-			position: fixed;
-			top: 1rem;
-			left: 1rem;
-			z-index: 1200;
-			background: none;
-			border: none;
-			font-size: 2rem;
-			cursor: pointer;
-			user-select: none;
-			color: }
-
-		/* Sidebar-home */
-		.dashboard-sidebar-home {
-			display: flex;
-			flex-direction: column;
-			gap: 1rem;
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 250px;
-			height: 100vh;
-			background: #343a40;
-			color: #fff;
-			padding: 5rem 1rem 1rem 2rem;
-			overflow-y: auto;
-			z-index: 1100;
-			transform: translateX(-100%);
-			transition: transform 0.3s ease;
-		}
-		.dashboard-sidebar-home.active,
-		#sidebar-home.active {
-			transform: translateX(0);
-
-		}
-
-		/* Cache le header-nav */
-		#main-nav {
-			display: none;
-		}
-
-		/* Décalage du contenu principal (optionnel) */
-		.dashboard-sidebar-home.active ~ main {
-			margin-left: 250px;
-			transition: margin-left 0.3s ease;
-		}
-	}
-
-	/* Liens de la sidebar-home */
-	.dashboard-sidebar-home a {
-		display: flex;
-		align-items: center;
-		color: #fff;
-		text-decoration: none;
-		padding: 0.5rem 0;
-		border-radius: 4px;
-		transition: background 0.2s;
-	}
-	.dashboard-sidebar-home a i {
-		width: 1.5rem;
-		text-align: center;
-	}
-	.dashboard-sidebar-home a.active,
-	.dashboard-sidebar-home a:hover {
-		background: rgba(255, 255, 255, 0.1);
-	}
-</style>

@@ -175,7 +175,6 @@ class StudentController extends AbstractController
         ]);
     }
 
-
     #[Route('/student/invoice/{id}/download', name: 'student_invoice_download')]
     public function downloadInvoice(Order $order, InvoiceManager $invoiceManager): Response
     {
@@ -200,8 +199,6 @@ class StudentController extends AbstractController
         // Redirects to PDF
         return $this->redirect("/" . $relativePath);
     }
-
-
 
 
     #[Route('/cursus/{id}/buy', name: 'cursus_buy')]
