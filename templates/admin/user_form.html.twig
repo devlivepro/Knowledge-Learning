@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{% if user is defined %}Modifier{% else %}Ajouter
+	{% endif %}
+	un utilisateur
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('style') }}
+{% endblock %}
+
+{% block body %}
+	<div class="dashboard-container">
+		<button id="hamburgerButton" class="hamburger">☰</button>
+
+		{# Sidebar #}
+		{% include 'includes/admin/administrator_sidebar.html.twig' %}
+
+		<main class="dashboard-main">
+			<h1 class="mb-4 text-center">
+				{% if user is defined %}
+					✏️ Modifier l'utilisateur
+				{% else %}
+					➕ Ajouter un utilisateur
+				{% endif %}
+			</h1>
+
+			<div class="card shadow-sm mx-auto" style="max-width: 600px;">
+				<div class="card-body">
+					{{ form_start(form) }}
+
+					{{ form_row(form.username) }}
+					{{ form_row(form.firstname) }}
+					{{ form_row(form.lastname) }}
+					{{ form_row(form.email) }}
+					{{ form_row(form.password) }}
+					{{ form_row(form.roles) }}
+
+					<div class="text-center mt-4">
+						<button type="submit" class="btn btn-primary">
+							{% if user is defined %}Mettre à jour{% else %}Ajouter
+							{% endif %}
+						</button>
+					</div>
+
+					{{ form_end(form) }}
+				</div>
+			</div>
+		</main>
+	</div>
+{% endblock %}
