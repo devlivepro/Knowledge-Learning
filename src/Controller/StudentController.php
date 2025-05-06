@@ -18,6 +18,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class StudentController extends AbstractController
 {
@@ -202,17 +205,17 @@ class StudentController extends AbstractController
 
 
     #[Route('/cursus/{id}/buy', name: 'cursus_buy')]
-    public function buyCursus(Cursus $cursus, EntityManagerInterface $em): Response
-    {
+    public function buyCursus(
+        Cursus $cursus,
+        UrlGeneratorInterface $urlGenerator
+    ): Response {
         $user = $this->getUser();
 
-        // Require profile completion before purchase
         if (!$user->getFirstName() || !$user->getLastName() || !$user->getAddress()) {
             $this->addFlash('error', 'Veuillez compléter votre profil (nom, prénom, adresse) avant de pouvoir effectuer un achat.');
             return $this->redirectToRoute('student_profile');
         }
 
-        // Prevent duplicate purchases
         foreach ($user->getOrders() as $order) {
             if ($order->getCursus() === $cursus) {
                 $this->addFlash('info', 'Vous avez déjà acheté ce cursus.');
@@ -220,32 +223,45 @@ class StudentController extends AbstractController
             }
         }
 
-        // Create and persist new order
-        $order = new Order();
-        $order->setUser($user)
-              ->setCursus($cursus)
-              ->setTotal($cursus->getPrice())
-              ->setStatus('Payé')
-              ->setCreatedAt(new \DateTimeImmutable());
-        $em->persist($order);
-        $em->flush();
+        Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
 
-        $this->addFlash('success', 'Formation achetée avec succès !');
-        return $this->redirectToRoute('student_courses');
+        $session = Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'eur',
+                    'product_data' => [
+                        'name' => $cursus->getTitle(),
+                    ],
+                    'unit_amount' => $cursus->getPrice() * 100,
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => $urlGenerator->generate('payment_success', [], UrlGeneratorInterface::ABSOLUTE_URL),
+            'cancel_url'  => $urlGenerator->generate('payment_cancel', [], UrlGeneratorInterface::ABSOLUTE_URL),
+            'metadata' => [
+                'user_id' => $user->getId(),
+                'type' => 'cursus',
+                'target_id' => $cursus->getId(),
+            ],
+        ]);
+
+        return $this->redirect($session->url);
     }
 
     #[Route('/lesson/{id}/buy', name: 'lesson_buy')]
-    public function buyLesson(Lesson $lesson, EntityManagerInterface $em): Response
-    {
+    public function buyLesson(
+        Lesson $lesson,
+        UrlGeneratorInterface $urlGenerator
+    ): Response {
         $user = $this->getUser();
 
-        // Require profile completion
         if (!$user->getFirstName() || !$user->getLastName() || !$user->getAddress()) {
             $this->addFlash('error', 'Veuillez compléter votre profil (nom, prénom, adresse) avant de pouvoir effectuer un achat.');
             return $this->redirectToRoute('student_profile');
         }
 
-        // Prevent duplicate lesson purchases
         foreach ($user->getOrders() as $order) {
             if ($order->getLesson() === $lesson) {
                 $this->addFlash('info', 'Vous avez déjà acheté cette leçon.');
@@ -253,18 +269,31 @@ class StudentController extends AbstractController
             }
         }
 
-        // Create new lesson order
-        $order = new Order();
-        $order->setUser($user)
-              ->setLesson($lesson)
-              ->setTotal($lesson->getPrice())
-              ->setStatus('Payé')
-              ->setCreatedAt(new \DateTimeImmutable());
-        $em->persist($order);
-        $em->flush();
+        Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
 
-        $this->addFlash('success', 'Leçon achetée avec succès !');
-        return $this->redirectToRoute('student_courses');
+        $session = Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'eur',
+                    'product_data' => [
+                        'name' => $lesson->getTitle(),
+                    ],
+                    'unit_amount' => $lesson->getPrice() * 100,
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => $urlGenerator->generate('payment_success', [], UrlGeneratorInterface::ABSOLUTE_URL),
+            'cancel_url'  => $urlGenerator->generate('payment_cancel', [], UrlGeneratorInterface::ABSOLUTE_URL),
+            'metadata' => [
+                'user_id' => $user->getId(),
+                'type' => 'lesson',
+                'target_id' => $lesson->getId(),
+            ],
+        ]);
+
+        return $this->redirect($session->url);
     }
 
     #[Route('/cursus/{id}/suivi', name: 'cursus_suivi')]
@@ -345,8 +374,9 @@ class StudentController extends AbstractController
         } else {
             $this->addFlash('info', 'Leçon déjà validée.');
         }
-        
+
         // Redirect back to the cursus tracking page
         return $this->redirectToRoute('cursus_suivi', ['id' => $lesson->getCursus()->getId()]);
     }
+
 }

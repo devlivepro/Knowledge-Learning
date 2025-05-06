@@ -4,7 +4,7 @@ namespace App\EventListener;
 
 use App\Entity\User;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PrePersistEventArgs;
 use Symfony\Bundle\SecurityBundle\Security;
 
 class UserListener
@@ -26,9 +26,8 @@ class UserListener
         }
     }
 
-    public function prePersist(User $user, LifecycleEventArgs $event): void
+    public function prePersist(User $user, PrePersistEventArgs $event): void
     {
-        // To be sure even at creation if ever missing
         if (!$user->getCreatedAt()) {
             $user->setCreatedAt(new \DateTimeImmutable());
         }
