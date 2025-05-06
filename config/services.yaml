@@ -22,9 +22,8 @@ services:
     exclude:
       - "../src/DependencyInjection/"
       - "../src/Entity/"
-
       - "../src/Kernel.php"
-    # Configuration explicite pour le service MailerService
+    # Explicit MailerService configuration
   App\Service\MailerService:
     arguments:
       $mailjetApiKey: "%env(MAILJET_API_KEY)%"
