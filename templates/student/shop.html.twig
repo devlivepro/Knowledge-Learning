@@ -9,14 +9,13 @@
 {% endblock %}
 
 {% block body %}
-	<div
-		class="dashboard-container">
+	<div class="dashboard-container">
 
 		{# hamburger button #}
 		<button id="hamburgerButton" class="hamburger">☰</button>
 
-		{# On inclut directement l’aside déjà défini dans admin_sidebar.twig #}
-		{% include 'includes/admin/admin_sidebar.twig' %}
+		{# Sidebar #}
+		{% include 'includes/admin/admin_sidebar.html.twig' %}
 
 		{# Contenu principal #}
 		<main class="dashboard-main">
