@@ -10,8 +10,12 @@
 
 {% block body %}
 	<div class="dashboard-container">
+
+		{# Button hamburger #}
 		<button id="hamburgerButton" class="hamburger">☰</button>
-		{% include 'includes/admin/admin_sidebar.twig' %}
+
+		{# Sidebar #}
+		{% include 'includes/admin/admin_sidebar.html.twig' %}
 
 		<main class="dashboard-main">
 			<h1 class="mb-4">Mes achats</h1>
@@ -49,7 +53,7 @@
 								</p>
 							</div>
 							<div class="invoice-footer">
-								<a href="{{ path('student_invoice_download', { id: order.id }) }}" class="btn btn-outline-primary mt-2 w-100">
+								<a href="{{ path('student_invoice_download', { id: order.id }) }}" target="_blank" class="btn btn-outline-primary mt-2 w-100">
 									📄 Télécharger la facture
 								</a>
 							</div>

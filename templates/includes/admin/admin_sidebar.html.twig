@@ -1,0 +1,74 @@
+<aside class="dashboard-sidebar" id="sidebar">
+  <h2>Mon espace élève</h2>
+
+  <a href="{{ path('student') }}" class="{{ app.request.attributes.get('_route') == 'student' ? 'active' : '' }}">
+    <i class="fas fa-home me-2"></i>
+    <span class="link-text">Accueil</span>
+  </a>
+
+  <a href="{{ path('student_shop') }}" class="{{ app.request.attributes.get('_route') starts with 'student_shop' ? 'active' : '' }}">
+    <i class="fas fa-store me-2"></i>
+    <span class="link-text">Boutique</span>
+  </a>
+
+  <a href="{{ path('student_courses') }}" class="{{ app.request.attributes.get('_route') starts with 'student_courses' ? 'active' : '' }}">
+    <i class="fas fa-graduation-cap me-2"></i>
+    <span class="link-text">Formations</span>
+  </a>
+
+  <a href="{{ path('student_results') }}" class="{{ app.request.attributes.get('_route') starts with 'student_results' ? 'active' : '' }}">
+    <i class="fas fa-chart-line me-2"></i>
+    <span class="link-text">Résultats</span>
+  </a>
+
+  <a href="{{ path('student_certifications') }}" class="{{ app.request.attributes.get('_route') starts with 'student_certifications' ? 'active' : '' }}">
+    <i class="fas fa-certificate me-2"></i>
+    <span class="link-text">Certifications</span>
+  </a>
+
+  <span class="separator-line"></span>
+
+  <a href="{{ path('student_invoice') }}" class="{{ app.request.attributes.get('_route') starts with 'student_invoice' ? 'active' : '' }}">
+    <i class="fas fa-file-invoice me-2"></i>
+    <span class="link-text">Factures</span>
+  </a>
+
+  <a href="{{ path('student_profile') }}" class="{{ app.request.attributes.get('_route') starts with 'student_profile' ? 'active' : '' }}">
+    <i class="fas fa-user me-2"></i>
+    <span class="link-text">Profil</span>
+  </a>
+
+  {% if is_granted('ROLE_ADMIN') %}
+    <span class="separator-line"></span>
+    <h4 class="text-light mt-3 mb-2">Administration</h4>
+
+    <a href="{{ path('admin_dashboard') }}">
+      <i class="fas fa-tools me-2"></i>
+      <span class="link-text">Dashboard</span>
+    </a>
+    <a href="{{ path('admin_manage_users') }}">
+      <i class="fas fa-users-cog me-2"></i>
+      <span class="link-text">Utilisateurs</span>
+    </a>
+    <a href="{{ path('admin_manage_cursus') }}">
+      <i class="fas fa-book me-2"></i>
+      <span class="link-text">Cursus</span>
+    </a>
+    <a href="{{ path('admin_manage_orders') }}">
+      <i class="fas fa-receipt me-2"></i>
+      <span class="link-text">Achats</span>
+    </a>
+  {% endif %}
+
+  <span class="separator-line"></span>
+
+  <a href="{{ path('home') }}">
+    <i class="fas fa-globe me-2"></i>
+    <span class="link-text">Retour sur le site</span>
+  </a>
+
+  <a href="{{ path('app_logout') }}">
+    <i class="fas fa-sign-out-alt me-2"></i>
+    <span class="link-text">Déconnexion</span>
+  </a>
+</aside>

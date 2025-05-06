@@ -10,8 +10,12 @@
 
 {% block body %}
 	<div class="dashboard-container">
+
+		{# Button hamburger #}
 		<button id="hamburgerButton" class="hamburger">☰</button>
-		{% include 'includes/admin/admin_sidebar.twig' %}
+
+		{# Sidebar #}
+		{% include 'includes/admin/admin_sidebar.html.twig' %}
 
 		<main class="dashboard-main">
 			<h1 class="text-center mb-4">Mes Formations</h1>
@@ -55,21 +59,21 @@
 									<p class="card-text">Achetée le
 										{{ order.createdAt|date('d/m/Y') }}</p>
 
-									<div class="text-muted mb-3">Leçon achetée individuellement</div></br>
+									<div class="text-muted mb-3">Leçon achetée individuellement</div>
+								</br>
 
-									<a href="{{ path('student_lesson', { 'id': lesson.id }) }}" class="btn btn-primary btn-sm">Accéder au suivi</a>
+								<a href="{{ path('student_lesson', { 'id': lesson.id }) }}" class="btn btn-primary btn-sm">Accéder au suivi</a>
 
-								</div>
 							</div>
-						{% endif %}
-					{% endfor %}
+						</div>
+					{% endif %}
+				{% endfor %}
 
-				</div>
-			{% else %}
-				<div class="text-center">
-					<p>Vous n'avez encore acheté aucune formation.</p>
-				</div>
-			{% endif %}
-		</main>
-	</div>
-{% endblock %}
+			</div>
+		{% else %}
+			<div class="text-center">
+				<p>Vous n'avez encore acheté aucune formation.</p>
+			</div>
+		{% endif %}
+	</main>
+</div>{% endblock %}
