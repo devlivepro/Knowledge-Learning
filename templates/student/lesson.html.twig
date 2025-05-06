@@ -9,8 +9,12 @@
 
 {% block body %}
 <div class="dashboard-container">
+
+    {# Button hamburger #}
     <button id="hamburgerButton" class="hamburger">☰</button>
-    {% include 'includes/admin/admin_sidebar.twig' %}
+
+    {# Sidebar #}
+    {% include 'includes/admin/admin_sidebar.html.twig' %}
 
     <main class="dashboard-main">
         <h1 class="text-center mb-4">📘 Leçon – {{ lesson.title }}</h1>
