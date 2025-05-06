@@ -12,11 +12,11 @@
 
 	<div class="dashboard-container">
 
-		{# Bouton hamburger #}
+		{# Button hamburger #}
 		<button id="hamburgerButton" class="hamburger">☰</button>
 
 		{# Sidebar #}
-		{% include 'includes/admin/admin_sidebar.twig' %}
+		{% include 'includes/admin/admin_sidebar.html.twig' %}
 
 		<!-- Main content -->
 		<main class="dashboard-main">
@@ -34,7 +34,7 @@
 									{{ certification.obtainedAt|date('d/m/Y') }}</p>
 
 								{% if certification.filename and certification.hasFile %}
-									<a href="{{ asset('uploads/certifications/' ~ certification.filename) }}" class="btn btn-success mt-auto" download target="_blank">
+									<a href="{{ asset('uploads/certifications/' ~ certification.filename) }}" target="_blank" class="btn btn-success mt-auto" download target="_blank">
 										📥 Télécharger le certificat
 									</a>
 								{% else %}
