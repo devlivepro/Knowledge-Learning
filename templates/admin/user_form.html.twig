@@ -31,11 +31,11 @@
 				<div class="card-body">
 					{{ form_start(form) }}
 
-					{{ form_row(form.username) }}
-					{{ form_row(form.firstname) }}
-					{{ form_row(form.lastname) }}
-					{{ form_row(form.email) }}
-					{{ form_row(form.password) }}
+					{{ form_row(form.username, {'attr': {'class': 'form-control'}}) }}
+					{{ form_row(form.firstname, {'attr': {'class': 'form-control'}}) }}
+					{{ form_row(form.lastname, {'attr': {'class': 'form-control'}}) }}
+					{{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
+					{{ form_row(form.password, {'attr': {'class': 'form-control'}}) }}
 					{{ form_row(form.roles) }}
 
 					<div class="text-center mt-4">
