@@ -20,23 +20,33 @@ class UserType extends AbstractType
         $builder
             ->add('username', TextType::class, [
                 'label' => 'Nom d’utilisateur',
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom',
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('lastname', TextType::class, [
                 'label' => 'Nom',
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'mapped' => false,
-                'required' => false, // pour l'édition
+                'required' => false,
                 'invalid_message' => 'Les mots de passe ne correspondent pas.',
-                'first_options'  => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Confirmer le mot de passe'],
+                'first_options'  => [
+                    'label' => 'Mot de passe',
+                    'attr' => ['class' => 'form-control'],
+                ],
+                'second_options' => [
+                    'label' => 'Confirmer le mot de passe',
+                    'attr' => ['class' => 'form-control'],
+                ],
             ])
             ->add('roles', ChoiceType::class, [
                 'label' => 'Rôle',
@@ -46,16 +56,13 @@ class UserType extends AbstractType
                 ],
                 'expanded' => false,
                 'multiple' => false,
+                'attr' => ['class' => 'form-select'],
             ]);
 
-        // Transformer un tableau <-> string pour les rôles
+        // Transform an array <-> string for roles
         $builder->get('roles')->addModelTransformer(new CallbackTransformer(
-            function ($rolesArray) {
-                return $rolesArray[0] ?? null; // from array to string
-            },
-            function ($roleString) {
-                return [$roleString]; // from string to array
-            }
+            fn($rolesArray) => $rolesArray[0] ?? null,
+            fn($roleString) => [$roleString]
         ));
     }
 
