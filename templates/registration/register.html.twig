@@ -25,7 +25,7 @@
                 {{ form_start(registrationForm) }}
                     <div class="form-group">
                         {{ form_label(registrationForm.username) }}
-                        {{ form_widget(registrationForm.username, { 'attr': {'class': 'form-control', 'placeholder': 'Nom d\'utilisateur'} }) }} <!-- Ajout du champ username -->
+                        {{ form_widget(registrationForm.username, { 'attr': {'class': 'form-control', 'placeholder': 'Nom d\'utilisateur'} }) }}
                         <div class="error text-danger">{{ form_errors(registrationForm.username) }}</div>
                     </div>
                     <div class="form-group">

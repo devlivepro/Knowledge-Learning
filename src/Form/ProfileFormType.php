@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -10,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Regex;
-use App\Entity\User;
+use Symfony\Component\Validator\Constraints\Length;
 
 class ProfileFormType extends AbstractType
 {
@@ -24,18 +25,17 @@ class ProfileFormType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Adresse e-mail',
             ])
-
             ->add('firstName', TextType::class, [
-                'label' => 'Prénom',
+                'label'    => 'Prénom',
                 'required' => false,
             ])
             ->add('lastName', TextType::class, [
-                'label' => 'Nom',
+                'label'    => 'Nom',
                 'required' => false,
             ])
             ->add('phone', TextType::class, [
-                'label' => 'Téléphone',
-                'required' => false,
+                'label'       => 'Téléphone',
+                'required'    => false,
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^(\+33|0)[1-9](\d{2}){4}$/',
@@ -44,19 +44,35 @@ class ProfileFormType extends AbstractType
                 ],
             ])
             ->add('address', TextType::class, [
-                'label' => 'Adresse',
+                'label'    => 'Adresse',
                 'required' => false,
             ])
-
             ->add('plainPassword', RepeatedType::class, [
                 'type'            => PasswordType::class,
+                'mapped'          => false,
                 'required'        => false,
-                'first_options'   => ['label' => 'Nouveau mot de passe'],
-                'second_options'  => ['label' => 'Confirmez le mot de passe'],
+                'first_options'   => [
+                    'label'       => 'Nouveau mot de passe',
+                    'attr'        => ['class' => 'form-control'],
+                    'constraints' => [
+                        new Length([
+                            'min'        => 8,
+                            'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères.',
+                            // maximum managed by Symfony
+                            'max'        => 4096,
+                        ]),
+                        new Regex([
+                            'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
+                            'message' => 'Le mot de passe doit contenir au moins une majuscule, une minuscule et un chiffre.',
+                        ]),
+                    ],
+                ],
+                'second_options'  => [
+                    'label' => 'Confirmez le mot de passe',
+                    'attr'  => ['class' => 'form-control'],
+                ],
                 'invalid_message' => 'Les mots de passe ne correspondent pas.',
-                'mapped'          => false, // on ne mappe pas car on hash à la main
             ]);
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void
