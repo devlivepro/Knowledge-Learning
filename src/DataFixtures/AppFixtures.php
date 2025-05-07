@@ -21,13 +21,13 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        // 1. Theme metadata (text, image, icon)
+        // 1. Themes with associated metadata and curricula
         $themesMeta = [
             'Musique' => [
-                'text'  => 'Apprenez à maîtriser un instrument grâce à nos cours experts.',
+                'text' => 'Apprenez à maîtriser un instrument grâce à nos cours experts.',
                 'image' => 'music.webp',
-                'icon'  => 'fa-music',
-                'cursus'=> [
+                'icon' => 'fa-music',
+                'cursus' => [
                     ['Cursus d’initiation à la guitare', 50, [
                         ['Découverte de l’instrument', 26],
                         ['Les accords et les gammes', 26],
@@ -39,10 +39,10 @@ class AppFixtures extends Fixture
                 ],
             ],
             'Informatique' => [
-                'text'  => 'Développez vos compétences numériques et maîtrisez les outils technologiques de demain.',
+                'text' => 'Développez vos compétences numériques et maîtrisez les outils technologiques de demain.',
                 'image' => 'it.webp',
-                'icon'  => 'fa-laptop-code',
-                'cursus'=> [
+                'icon' => 'fa-laptop-code',
+                'cursus' => [
                     ['Cursus d’initiation au développement web', 60, [
                         ['Les langages HTML et CSS', 32],
                         ['Dynamiser votre site avec Javascript', 32],
@@ -50,10 +50,10 @@ class AppFixtures extends Fixture
                 ],
             ],
             'Jardinage' => [
-                'text'  => 'Apprenez à cultiver votre propre jardin et à entretenir vos espaces verts avec passion.',
+                'text' => 'Apprenez à cultiver votre propre jardin et à entretenir vos espaces verts avec passion.',
                 'image' => 'gardening.webp',
-                'icon'  => 'fa-seedling',
-                'cursus'=> [
+                'icon' => 'fa-seedling',
+                'cursus' => [
                     ['Cursus d’initiation au jardinage', 30, [
                         ['Les outils du jardinier', 16],
                         ['Jardiner avec la lune', 16],
@@ -61,10 +61,10 @@ class AppFixtures extends Fixture
                 ],
             ],
             'Cuisine' => [
-                'text'  => 'Découvrez l’art culinaire et réalisez des recettes savoureuses, de l\'entrée au dessert.',
+                'text' => 'Découvrez l’art culinaire et réalisez des recettes savoureuses, de l\'entrée au dessert.',
                 'image' => 'kitchen.webp',
-                'icon'  => 'fa-utensils',
-                'cursus'=> [
+                'icon' => 'fa-utensils',
+                'cursus' => [
                     ['Cursus d’initiation à la cuisine', 44, [
                         ['Les modes de cuisson', 23],
                         ['Les saveurs', 23],
@@ -77,14 +77,30 @@ class AppFixtures extends Fixture
             ],
         ];
 
-        // 2. Creating themes + curricula + lessons
+        // 2. Global list of 12 videos (1 per lesson)
+        $videoUrls = [
+            "https://youtu.be/HQXK2KnXouo?si=RT6WQUvLdHX9ZO1M",
+            "https://youtu.be/KZWNXGKh8lY?si=h91bdIFO7gSYE8yz",
+            "https://youtu.be/Jq8patW7QXY?si=PvPGAwXmpxrRek1s",
+            "https://youtu.be/2y9t5yzIwJg?si=sH02seZQHLhN-PNV",
+            "https://youtu.be/64X4ZJ-F7EI?si=e68zUa8QIrJxISWb",
+            "https://youtu.be/v3Ho7QVaTXM?si=u6TaxJinm3dUt-ey",
+            "https://youtu.be/tKOgEv6ZzNc?si=Iyqt3e7YmeJUnk6z",
+            "https://youtu.be/9t1VAmoiZBU?si=MAxidHJ-6V5dGlQV",
+            "https://youtu.be/4L_PUwUbKhs?si=MJAL7Of3NFnZur0g",
+            "https://youtu.be/e4Gx_G0U2Mk?si=ELYAeqoFnyKNFyUf",
+            "https://youtu.be/YlH1aOOvEdc?si=9PVehzWuypb_gje6",
+            "https://youtu.be/m9U1mr-VbxM?si=hP7SVazN7_IeTG7g",
+        ];
+        $videoGlobalIndex = 0;
+
+        // 3. Main creation loop
         foreach ($themesMeta as $title => $meta) {
             $theme = new Theme();
             $theme->setTitle($title)
                   ->setText($meta['text'])
                   ->setImage($meta['image'])
-                  ->setIcon($meta['icon'])
-            ;
+                  ->setIcon($meta['icon']);
             $manager->persist($theme);
 
             foreach ($meta['cursus'] as [$cTitle, $cPrice, $lessons]) {
@@ -92,30 +108,35 @@ class AppFixtures extends Fixture
                 $cursus->setTitle($cTitle)
                        ->setPrice($cPrice)
                        ->setTheme($theme)
-                ;
+                       ->setCreatedAt(new \DateTimeImmutable());
                 $manager->persist($cursus);
 
                 foreach ($lessons as [$lTitle, $lPrice]) {
                     $lesson = new Lesson();
                     $lesson->setTitle($lTitle)
-                           ->setContent('Contenu de la leçon : ' . $lTitle)
-                           ->setVideoUrl('https://example.com/video.mp4')
+                           ->setContent("Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
                            ->setPrice($lPrice)
                            ->setCursus($cursus)
-                    ;
+                           ->setCreatedAt(new \DateTimeImmutable());
+
+                    // Single video attribution
+                    if (isset($videoUrls[$videoGlobalIndex])) {
+                        $lesson->setVideoUrl($videoUrls[$videoGlobalIndex]);
+                        $videoGlobalIndex++;
+                    }
+
                     $manager->persist($lesson);
                 }
             }
         }
 
-        // 3. User creation
+        // 4. Creating test users
         $admin = new User();
         $admin->setEmail('admin@example.com')
               ->setUsername('admin')
               ->setRoles(['ROLE_ADMIN'])
               ->setPassword($this->passwordHasher->hashPassword($admin, 'password'))
-              ->setActivated(true)
-        ;
+              ->setActivated(true);
         $manager->persist($admin);
 
         $student = new User();
@@ -123,8 +144,7 @@ class AppFixtures extends Fixture
                 ->setUsername('student')
                 ->setRoles(['ROLE_USER'])
                 ->setPassword($this->passwordHasher->hashPassword($student, 'password'))
-                ->setActivated(true)
-        ;
+                ->setActivated(true);
         $manager->persist($student);
 
         $manager->flush();
