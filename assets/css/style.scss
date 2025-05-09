@@ -28,7 +28,7 @@ main {
 header {
   background-color: $color-7;
   padding: 10px 0;
-  border-bottom: 4px solid #00497c;
+  border-bottom: 4px solid $color-3;
 }
 
 .header-container {
@@ -57,7 +57,7 @@ nav a {
   text-decoration: none;
 }
 nav a.active {
-  color: #333;
+  color: $color-4;
   font-weight: 700;
   text-decoration: underline;
 }
