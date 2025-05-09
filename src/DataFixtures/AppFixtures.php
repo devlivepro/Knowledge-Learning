@@ -130,7 +130,7 @@ class AppFixtures extends Fixture
             }
         }
 
-        // 4. Creating test users
+        // 4. Create users
         $admin = new User();
         $admin->setEmail('admin@example.com')
               ->setUsername('admin')
