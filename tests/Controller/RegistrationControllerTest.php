@@ -22,7 +22,7 @@ class RegistrationControllerTest extends WebTestCase
         $username = 'user_' . uniqid();
         $email    = 'user_' . uniqid() . '@example.com';
         // Ensure the password meets any minimum length requirements
-        $password = 'azerty123';
+        $password = '7e]2Azvx7aCAG):';
 
         // 4) Select the registration form by its submit button label
         $form = $crawler->selectButton("S'inscrire")->form([
